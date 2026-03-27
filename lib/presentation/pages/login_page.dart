@@ -5,8 +5,8 @@ import '../../core/theme/app_text_styles.dart';
 import '../widgets/app_button.dart';
 import '../widgets/app_text_field.dart';
 
-class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -53,54 +53,39 @@ class SignUpPage extends StatelessWidget {
 
                   const SizedBox(height: 20),
 
-                  // Username
-                  AppTextField(
-                    hint: 'Username',
-                  ),
-
-                  const SizedBox(height: 20),
-
                   // Password
                   AppTextField(
                     hint: 'Password',
                     obscureText: true,
                   ),
 
-                  const SizedBox(height: 20),
-
-                  // Confirm Password
-                  AppTextField(
-                    hint: 'Confirm Password',
-                    obscureText: true,
-                  ),
-
                   const SizedBox(height: 27),
 
-                  // Sign Up Button
+                  // Login Button
                   AppButton(
-                    label: 'Sign Up',
+                    label: 'Login',
                     onPressed: () {
-                      // TODO: handle sign up
+                      // TODO: handle login
                     },
                     variant: AppButtonVariant.filled,
                   ),
 
                   const SizedBox(height: 24),
 
-                  // Already have an account
+                  // Don't have an account
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Already have an account? ',
+                        "Don't have an account? ",
                         style: AppTestStyles.caption.copyWith(color: Colors.grey),
                       ),
                       GestureDetector(
                         onTap: () {
-                          // TODO: Navigate to login page
+                          // TODO: Navigate to sign up page
                         },
                         child: Text(
-                          'Log In',
+                          'Sign Up',
                           style: AppTestStyles.caption.copyWith(
                             color: AppColors.primary,
                             fontWeight: FontWeight.bold,
