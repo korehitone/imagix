@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'presentation/pages/signup_page.dart';
+import 'presentation/pages/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const SignUpPage(),
+      home: const HomePage(),
       //const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
