@@ -6,7 +6,12 @@ import '../widgets/app_image_card.dart';
 import '../widgets/app_profile_header.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  final bool isOwnProfile;
+
+  const ProfilePage({
+    super.key,
+    this.isOwnProfile = true,
+  });
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -50,6 +55,7 @@ class _ProfilePageState extends State<ProfilePage>
               AppProfileHeader(
                 username: 'Username',
                 bio: 'Bio Description',
+                isOwnProfile: widget.isOwnProfile,
                 onEditProfile: () {
                   // TODO: Navigate to edit profile
                 },

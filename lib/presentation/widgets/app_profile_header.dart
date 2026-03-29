@@ -10,6 +10,7 @@ class AppProfileHeader extends StatelessWidget {
   final String collections;
   final String? imageUrl;
   final VoidCallback? onEditProfile;
+  final bool isOwnProfile;
 
   const AppProfileHeader({
     super.key,
@@ -21,6 +22,7 @@ class AppProfileHeader extends StatelessWidget {
     this.collections = '6.7K',
     this.imageUrl,
     this.onEditProfile,
+    this.isOwnProfile = true,
   });
 
   Widget _buildStat(BuildContext context, String label, String value) {
@@ -89,6 +91,7 @@ class AppProfileHeader extends StatelessWidget {
             _buildStat(context, 'Posts', posts),
             _buildStat(context, 'Followers', followers),
             _buildStat(context, 'Following', following),
+            if (isOwnProfile)
             _buildStat(context, 'Collections', collections),
           ],
         ),
@@ -115,6 +118,7 @@ class AppProfileHeader extends StatelessWidget {
         const SizedBox(height: 16),
 
         // Edit Profile Button
+        if (isOwnProfile)
         SizedBox(
           width: 120,
           height: 44,

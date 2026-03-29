@@ -6,14 +6,14 @@ import '../widgets/app_collection_card.dart';
 import '../widgets/app_image_card.dart';
 import '../widgets/app_search_bar.dart';
 
-class SearchPage extends StatefulWidget {
-  const SearchPage({super.key});
+class SavedPage extends StatefulWidget {
+  const SavedPage({super.key});
 
   @override
-  State<SearchPage> createState() => _SearchPageState();
+  State<SavedPage> createState() => _SavedPageState();
 }
 
-class _SearchPageState extends State<SearchPage> {
+class _SavedPageState extends State<SavedPage> {
   int _currentIndex = 1;
   final TextEditingController _searchController = TextEditingController();
 
@@ -84,7 +84,7 @@ class _SearchPageState extends State<SearchPage> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 24, bottom: 12),
                   child: Text(
-                    'Images',
+                    'Last Added',
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
