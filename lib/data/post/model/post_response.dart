@@ -1,9 +1,16 @@
+import 'package:imagix/domain/post/model/post.dart';
+
 class PostResponse {
   final String id;
   final String title;
   final String description;
   final String image;
   final String userId;
+  final String authorUsername;
+  final String? authorPhoto;
+  final int totalLikes;
+  final int totalComments;
+  final bool isLiked;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -13,6 +20,11 @@ class PostResponse {
     required this.description,
     required this.image,
     required this.userId,
+    required this.authorUsername,
+    this.authorPhoto,
+    required this.totalLikes,
+    required this.totalComments,
+    required this.isLiked,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -23,35 +35,25 @@ class PostResponse {
     description: json['description'] as String,
     image: json['image'] as String,
     userId: json['user_id'] as String,
+    authorUsername: json['author_username'] as String,
+    authorPhoto: json['author_photo'] as String?,
+    totalLikes: json['total_likes'] as int,
+    totalComments: json['total_comments'] as int,
+    isLiked: json['is_liked'] as bool,
     createdAt: DateTime.parse(json['created_at'] as String).toLocal(),
     updatedAt: DateTime.parse(json['updated_at'] as String).toLocal(),
   );
 
-  Map<String, dynamic> toJson() => {
-    'id': id,
-    'title': title,
-    'description': description,
-    'image': image,
-    'user_id': userId,
-  };
-
-  PostResponse copyWith({
-    String? id,
-    String? title,
-    String? description,
-    String? image,
-    String? userId,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-  }) {
-    return PostResponse(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      description: description ?? this.description,
-      image: image ?? this.image,
-      userId: userId ?? this.userId,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-    );
-  }
+  Post toDomain() => Post(
+    id: id,
+    title: title,
+    description: description,
+    image: image,
+    userId: userId,
+    authorUsername: authorUsername,
+    totalLikes: totalLikes,
+    totalComments: totalComments,
+    isLiked: isLiked,
+    createdAt: createdAt,
+  );
 }

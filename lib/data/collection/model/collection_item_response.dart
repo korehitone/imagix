@@ -1,27 +1,50 @@
-class CollectionItemResponse {
-  final int id;
-  final String collectionId;
-  final String postId;
-  final DateTime createdAt;
+import 'package:imagix/domain/collection/model/collection_item.dart';
 
-  CollectionItemResponse({
-    required this.id,
+class CollectionItemListViewResponse {
+  final int itemId; // ID dari junction table collections_items
+  final String collectionId;
+  final DateTime addedAt;
+  final String id; // Post ID
+  final String title;
+  final String image;
+  final String authorUsername;
+  final int totalLikes;
+  final int totalComments;
+
+  CollectionItemListViewResponse({
+    required this.itemId,
     required this.collectionId,
-    required this.postId,
-    required this.createdAt,
+    required this.addedAt,
+    required this.id,
+    required this.title,
+    required this.image,
+    required this.authorUsername,
+    required this.totalLikes,
+    required this.totalComments,
   });
 
-  factory CollectionItemResponse.fromJson(Map<String, dynamic> json) =>
-      CollectionItemResponse(
-        id: json['id'] as int,
+  factory CollectionItemListViewResponse.fromJson(Map<String, dynamic> json) =>
+      CollectionItemListViewResponse(
+        itemId: json['item_id'] as int,
         collectionId: json['collection_id'] as String,
-        postId: json['post_id'] as String,
-        createdAt: DateTime.parse(json['created_at'] as String).toLocal(),
+        addedAt: DateTime.parse(json['added_at'] as String).toLocal(),
+        id: json['id'] as String,
+        title: json['title'] as String,
+        image: json['image'] as String,
+        authorUsername: json['author_username'] as String,
+        totalLikes: json['total_likes'] as int,
+        totalComments: json['total_comments'] as int,
       );
 
-  Map<String, dynamic> toJson() => {
-    'id': id,
-    'collection_id': collectionId,
-    'post_id': postId,
-  };
+  CollectionItem toDomain() => CollectionItem(
+    itemId: itemId,
+    collectionId: collectionId,
+    addedAt: addedAt,
+    postId: id,
+    title: title,
+    image: image,
+    authorUsername: authorUsername,
+    totalLikes: totalLikes,
+    totalComments: totalComments,
+  );
 }

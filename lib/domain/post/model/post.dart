@@ -8,6 +8,7 @@ class Post {
   final String? authorPhoto;
   final int totalLikes;
   final int totalComments;
+  final bool isLiked;
   final DateTime createdAt;
 
   const Post({
@@ -20,6 +21,7 @@ class Post {
     this.authorPhoto,
     required this.totalLikes,
     required this.totalComments,
+    required this.isLiked,
     required this.createdAt,
   });
 }

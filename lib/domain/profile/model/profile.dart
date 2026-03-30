@@ -5,6 +5,9 @@ class Profile {
   final String? bio;
   final int totalPosts;
   final int totalCollections;
+  final int totalFollowers;
+  final int totalFollowings;
+  final bool isFollowing;
 
   Profile({
     required this.id,
@@ -13,5 +16,8 @@ class Profile {
     this.bio,
     required this.totalPosts,
     required this.totalCollections,
+    required this.totalFollowers,
+    required this.totalFollowings,
+    required this.isFollowing,
   });
 }

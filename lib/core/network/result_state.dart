@@ -2,9 +2,9 @@ sealed class ResultState<T> {
   const ResultState();
 }
 
-class Loading<T> extends ResultState<T> {
-  const Loading();
-}
+// class Loading<T> extends ResultState<T> {
+//   const Loading();
+// }
 
 class Success<T> extends ResultState<T> {
   final T data;

@@ -1,13 +1,13 @@
 class Follow {
-  final int followId;
   final String userId;
   final String username;
   final String? photo;
+  final bool isFollowing;
 
   Follow({
-    required this.followId,
     required this.userId,
     required this.username,
     this.photo,
+    required this.isFollowing,
   });
 }

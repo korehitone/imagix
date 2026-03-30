@@ -1,21 +1,20 @@
 import 'package:imagix/core/error/exception_handler.dart';
 import 'package:imagix/core/mapper/supabase_mapper.dart';
 import 'package:imagix/core/network/result_state.dart';
-import 'package:imagix/data/collection/model/view/collection_item_list_view_response.dart';
+import 'package:imagix/data/collection/model/collection_item_response.dart';
 import 'package:imagix/domain/collection/model/collection_item.dart';
 import 'package:imagix/domain/collection/repository/collection_item_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class CollectionItemRepositoryImpl extends CollectionItemRepository {
+class CollectionItemRepositoryImpl implements CollectionItemRepository {
   final SupabaseClient _client;
 
   CollectionItemRepositoryImpl(this._client);
 
   @override
-  Stream<ResultState<List<CollectionItem>>> getItemsByCollection(
+  Future<ResultState<List<CollectionItem>>> getItemsByCollection(
     String collectionId,
-  ) async* {
-    yield const Loading();
+  ) async {
     try {
       final response = await _client
           .from('collection_item_list_view')
@@ -23,15 +22,52 @@ class CollectionItemRepositoryImpl extends CollectionItemRepository {
           .eq('collection_id', collectionId)
           .order('added_at', ascending: false);
 
-      yield Success(
+      return Success(
         response
             .decodeList(CollectionItemListViewResponse.fromJson)
             .map((dto) => dto.toDomain())
             .toList(),
       );
     } catch (e) {
-      final error = ExceptionHandler.handle(e);
-      yield Error(error);
+      return Error(ExceptionHandler.handle(e));
+    }
+  }
+
+  @override
+  Future<ResultState<bool>> create(String collectionId, String postId) async {
+    try {
+      final response = await _client
+          .from('collection_items')
+          .insert({'collection_id': collectionId, 'post_id': postId})
+          .select('id')
+          .maybeSingle();
+
+      if (response == null) {
+        return const Error("ITEM_CREATE_FAILED");
+      }
+      return Success(true);
+    } catch (e) {
+      return Error(ExceptionHandler.handle(e));
+    }
+  }
+
+  @override
+  Future<ResultState<bool>> delete(int itemId) async {
+    try {
+      final response = await _client
+          .from('collection_items')
+          .delete()
+          .eq('id', itemId)
+          .select('id')
+          .maybeSingle();
+
+      if (response == null) {
+        return const Error("ITEM_NOT_FOUND");
+      }
+
+      return Success(true);
+    } catch (e) {
+      return Error(ExceptionHandler.handle(e));
     }
   }
 }

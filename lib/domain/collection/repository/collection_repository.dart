@@ -2,5 +2,15 @@ import '../../../core/network/result_state.dart';
 import '../model/collection.dart';
 
 abstract class CollectionRepository {
-  Stream<ResultState<List<Collection>>> getUserCollections();
+  Future<ResultState<List<Collection>>> getUserCollections(String userId);
+
+  Future<ResultState<bool>> create(String userId, String title);
+
+  Future<ResultState<bool>> update(
+    String userId,
+    String collectionId,
+    String title,
+  );
+
+  Future<ResultState<bool>> delete(String userId, String collectionId);
 }

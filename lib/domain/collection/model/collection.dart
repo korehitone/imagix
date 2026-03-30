@@ -4,6 +4,7 @@ class Collection {
   final String title;
   final int totalItems;
   final String? coverImage;
+  final bool isDefault;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -13,6 +14,7 @@ class Collection {
     required this.title,
     this.totalItems = 0, // Default 0 kalau ambil dari tabel biasa
     this.coverImage,
+    required this.isDefault,
     required this.createdAt,
     required this.updatedAt,
   });

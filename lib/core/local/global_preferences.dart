@@ -1,29 +1,18 @@
-import 'dart:convert';
-
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'model/user_profile.dart';
 
 class GlobalPreferences {
   final SharedPreferences _pref;
   GlobalPreferences(this._pref);
 
-  static const _keyUser = 'user_profile';
-
-  Future<void> saveUser(UserProfile user) async {
-    final String userData = jsonEncode(user.toJson());
-    await _pref.setString(_keyUser, userData);
+  Future<void> saveString(String key, String value) async {
+    await _pref.setString(key, value);
   }
 
-  UserProfile? getUser() {
-    final String? userData = _pref.getString(_keyUser);
-    if (userData == null) return null;
-
-    return UserProfile.fromJson(jsonDecode(userData));
+  String? getString(String key) {
+    return _pref.getString(key);
   }
 
-  Future<void> clearUser() async {
-    await _pref.remove(_keyUser);
-    // Dark mode biasanya nggak dihapus pas logout, biar tetep estetik
+  Future<void> remove(String key) async {
+    await _pref.remove(key);
   }
 }
