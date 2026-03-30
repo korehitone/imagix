@@ -8,12 +8,16 @@ class AppButton extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
   final AppButtonVariant variant;
+  final double width;
+  final double height;
 
   const AppButton({
     super.key,
     required this.label,
     required this.onPressed,
     this.variant = AppButtonVariant.filled,
+    this.width = 331,    // ← default width
+    this.height = 49,    // ← default height
   });
 
   @override
@@ -21,8 +25,8 @@ class AppButton extends StatelessWidget {
     final isFilled = variant == AppButtonVariant.filled;
 
     return SizedBox(
-      width: 331,
-      height: 49,
+      width: width,
+      height: height,
       child: isFilled
           ? ElevatedButton(
               onPressed: onPressed,
