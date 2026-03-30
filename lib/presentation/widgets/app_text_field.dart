@@ -16,19 +16,24 @@ class AppTextField extends StatelessWidget {
     this.obscureText = false,
     this.controller,
     this.keyboardType = TextInputType.text,
-    this.width = 331,    // ← default stays 331
-    this.height = 44,    // ← default stays 44
-    this.maxLines = 1,   // ← default single line
+    this.width = 331,
+    this.height = 44,
+    this.maxLines = 1,
   });
+
+  OutlineInputBorder _border() => OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4),
+        borderSide: const BorderSide(color: AppColors.primary, width: 2),
+      );
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: width,
-      height: height,
+      height: maxLines > 1 ? null : height, // avoid clipping multiline fields
       child: TextField(
         controller: controller,
-        obscureText: obscureText,
+        obscureText: maxLines > 1 ? false : obscureText,
         keyboardType: keyboardType,
         maxLines: maxLines,
         style: Theme.of(context).textTheme.bodyMedium,
@@ -42,14 +47,8 @@ class AppTextField extends StatelessWidget {
             horizontal: 16,
             vertical: 10,
           ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4),
-            borderSide: const BorderSide(color: AppColors.primary, width: 2),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4),
-            borderSide: const BorderSide(color: AppColors.primary, width: 2),
-          ),
+          enabledBorder: _border(),
+          focusedBorder: _border(),
         ),
       ),
     );

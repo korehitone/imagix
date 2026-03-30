@@ -9,8 +9,8 @@ class AppImageUploadBox extends StatelessWidget {
   const AppImageUploadBox({
     super.key,
     this.onTap,
-    this.width = 300,    // ← default width
-    this.height = 276,   // ← default height
+    this.width = 300,
+    this.height = 276,
   });
 
   @override
@@ -30,7 +30,7 @@ class AppImageUploadBox extends StatelessWidget {
         child: Center(
           child: Icon(
             Icons.add_photo_alternate_outlined,
-            color: AppColors.primary.withOpacity(0.4),
+            color: AppColors.primary.withValues(alpha: 0.4),
             size: 64,
           ),
         ),

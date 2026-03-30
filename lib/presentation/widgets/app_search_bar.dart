@@ -35,7 +35,7 @@ class AppSearchBar extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: hint,
                   hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.white.withOpacity(0.7),
+                        color: Colors.white70,
                       ),
                   border: InputBorder.none,
                   isDense: true,

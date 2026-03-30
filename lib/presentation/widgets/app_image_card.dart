@@ -24,7 +24,7 @@ class AppDetails extends StatelessWidget {
         GestureDetector(
           onTap: onTap,
           child: Container(
-            width: double.infinity, // ← let grid handle width
+            width: double.infinity,
             height: 285,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4),
@@ -42,7 +42,7 @@ class AppDetails extends StatelessWidget {
                     child: Text(
                       'Image',
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: AppColors.primary.withOpacity(0.4),
+                            color: AppColors.primary.withValues(alpha: 0.4),
                           ),
                     ),
                   ),

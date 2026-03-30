@@ -16,8 +16,8 @@ class AppButton extends StatelessWidget {
     required this.label,
     required this.onPressed,
     this.variant = AppButtonVariant.filled,
-    this.width = 331,    // ← default width
-    this.height = 49,    // ← default height
+    this.width = 331,
+    this.height = 49,
   });
 
   @override
@@ -38,7 +38,10 @@ class AppButton extends StatelessWidget {
                 ),
                 elevation: 0,
               ),
-              child: Text(label, style: AppTestStyles.paragraph.copyWith(color: Colors.white)),
+              child: Text(
+                label,
+                style: AppTextStyles.paragraph.copyWith(color: Colors.white),
+              ),
             )
           : OutlinedButton(
               onPressed: onPressed,
@@ -49,7 +52,10 @@ class AppButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),
-              child: Text(label, style: AppTestStyles.paragraph),
+              child: Text(
+                label,
+                style: AppTextStyles.paragraph,
+              ),
             ),
     );
   }

@@ -14,7 +14,8 @@ class AppOverflowMenuItem {
 }
 
 class AppOverflowMenu {
-  static void show(BuildContext context, {
+  static void show(
+    BuildContext context, {
     required List<AppOverflowMenuItem> items,
   }) {
     showModalBottomSheet(
@@ -28,13 +29,16 @@ class AppOverflowMenu {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: AppColors.secondary.withOpacity(0.85),
+                  color: AppColors.secondary.withValues(alpha: 0.85),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: items.map((item) {
-                    final isLast = items.last == item;
+                  children: items.asMap().entries.map((entry) {
+                    final index = entry.key;
+                    final item = entry.value;
+                    final isLast = index == items.length - 1;
+
                     return Column(
                       children: [
                         InkWell(
@@ -70,7 +74,10 @@ class AppOverflowMenu {
                                 const SizedBox(width: 16),
                                 Text(
                                   item.label,
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -81,7 +88,7 @@ class AppOverflowMenu {
                         ),
                         if (!isLast)
                           Divider(
-                            color: Colors.white.withOpacity(0.3),
+                            color: Colors.white.withValues(alpha: 0.3),
                             height: 1,
                             indent: 16,
                             endIndent: 16,

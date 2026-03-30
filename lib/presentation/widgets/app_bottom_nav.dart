@@ -33,50 +33,50 @@ class AppBottomNav extends StatelessWidget {
                 height: 4,
                 margin: const EdgeInsets.only(bottom: 32),
                 decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.4),
+                  color: Colors.grey.withValues(alpha: 0.4),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
 
               // Upload Post Button
               Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),  // ← padding on buttons only
-              child: AppButton(
-                label: 'Upload Post',
-                onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const UploadPostPage(),
-                    ),
-                  );
-                },
-                variant: AppButtonVariant.filled,
-                width: double.infinity,  // ← full width
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: AppButton(
+                  label: 'Upload Post',
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const UploadPostPage(),
+                      ),
+                    );
+                  },
+                  variant: AppButtonVariant.filled,
+                  width: double.infinity,
+                ),
               ),
-            ),
 
               const SizedBox(height: 16),
 
               // Collection Button
               Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),  // ← padding on buttons only
-              child: AppButton(
-                label: 'Create Collection',
-                onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const CreateCollectionPage(),
-                    ),
-                  );
-                },
-                variant: AppButtonVariant.outlined,
-                width: double.infinity,  // ← full width
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: AppButton(
+                  label: 'Create Collection',
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const CreateCollectionPage(),
+                      ),
+                    );
+                  },
+                  variant: AppButtonVariant.outlined,
+                  width: double.infinity,
+                ),
               ),
-            ),
 
               const SizedBox(height: 16),
             ],
@@ -100,7 +100,7 @@ class AppBottomNav extends StatelessWidget {
             currentIndex: currentIndex,
             onTap: (index) {
               if (index == 2) {
-                _showCreateOptions(context); // ← intercept Create tap
+                _showCreateOptions(context);
               } else {
                 onTap(index);
               }
@@ -108,7 +108,7 @@ class AppBottomNav extends StatelessWidget {
             type: BottomNavigationBarType.fixed,
             backgroundColor: AppColors.primary,
             selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.white.withOpacity(0.6),
+            unselectedItemColor: Colors.white.withValues(alpha: 0.6),
             selectedFontSize: 11,
             unselectedFontSize: 11,
             elevation: 0,
@@ -116,7 +116,7 @@ class AppBottomNav extends StatelessWidget {
                   color: Colors.white,
                 ),
             unselectedLabelStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Colors.white.withOpacity(0.6),
+                  color: Colors.white.withValues(alpha: 0.6),
                 ),
             items: const [
               BottomNavigationBarItem(

@@ -4,8 +4,8 @@ import '../../core/theme/app_text_styles.dart';
 import '../widgets/app_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class TestPage extends StatelessWidget {
-  const TestPage({super.key});
+class FirstPage extends StatelessWidget {
+  const FirstPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +21,8 @@ class TestPage extends StatelessWidget {
                 // Title
                 Text(
                   'IMAGIX',
-                  style: AppTestStyles.header.copyWith(
+                  style: AppTextStyles.header.copyWith(
                     color: AppColors.primary,
-                    fontSize: 40,
                   ),
                 ),
 
@@ -36,7 +35,7 @@ class TestPage extends StatelessWidget {
                   height: 160,
                 ),
 
-                const SizedBox(height: 62), // ← exact Figma gap
+                const SizedBox(height: 62),
 
                 // Log In Button
                 AppButton(

@@ -4,11 +4,17 @@ import '../../core/theme/app_colors.dart';
 class AppImageActions extends StatefulWidget {
   final String title;
   final String description;
+  final VoidCallback? onCommentTap;
+  final VoidCallback? onMoreTap;
+  final ValueChanged<bool>? onLikedChanged;
 
   const AppImageActions({
     super.key,
     required this.title,
     required this.description,
+    this.onCommentTap,
+    this.onMoreTap,
+    this.onLikedChanged,
   });
 
   @override
@@ -17,6 +23,11 @@ class AppImageActions extends StatefulWidget {
 
 class _AppImageActionsState extends State<AppImageActions> {
   bool _liked = false;
+
+  void _toggleLike() {
+    setState(() => _liked = !_liked);
+    widget.onLikedChanged?.call(_liked);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +42,7 @@ class _AppImageActionsState extends State<AppImageActions> {
             Row(
               children: [
                 GestureDetector(
-                  onTap: () => setState(() => _liked = !_liked),
+                  onTap: _toggleLike,
                   child: Icon(
                     _liked ? Icons.thumb_up : Icons.thumb_up_outlined,
                     color: _liked ? AppColors.primary : Colors.black,
@@ -42,7 +53,7 @@ class _AppImageActionsState extends State<AppImageActions> {
                 const SizedBox(width: 16),
 
                 GestureDetector(
-                  onTap: () {},
+                  onTap: widget.onCommentTap,
                   child: const Icon(
                     Icons.chat_bubble_outline,
                     color: Colors.black,
@@ -53,7 +64,7 @@ class _AppImageActionsState extends State<AppImageActions> {
                 const Spacer(),
 
                 GestureDetector(
-                  onTap: () {},
+                  onTap: widget.onMoreTap,
                   child: const Icon(
                     Icons.more_horiz,
                     color: Colors.black,

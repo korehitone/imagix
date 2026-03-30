@@ -29,16 +29,16 @@ class AppProfileHeader extends StatelessWidget {
     return Column(
       children: [
         Text(
-          label,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Colors.black,
-              ),
-        ),
-        Text(
-          value,
+          value, // value on top
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
+              ),
+        ),
+        Text(
+          label, // label below
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Colors.black,
               ),
         ),
       ],
@@ -91,8 +91,7 @@ class AppProfileHeader extends StatelessWidget {
             _buildStat(context, 'Posts', posts),
             _buildStat(context, 'Followers', followers),
             _buildStat(context, 'Following', following),
-            if (isOwnProfile)
-            _buildStat(context, 'Collections', collections),
+            if (isOwnProfile) _buildStat(context, 'Collections', collections),
           ],
         ),
 
@@ -101,7 +100,7 @@ class AppProfileHeader extends StatelessWidget {
         // Bio
         Container(
           width: double.infinity,
-          constraints: const BoxConstraints(minHeight: 80), // ← taller bio box
+          constraints: const BoxConstraints(minHeight: 80),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
@@ -119,27 +118,27 @@ class AppProfileHeader extends StatelessWidget {
 
         // Edit Profile Button
         if (isOwnProfile)
-        SizedBox(
-          width: 120,
-          height: 44,
-          child: ElevatedButton(
-            onPressed: onEditProfile ?? () {},
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+          SizedBox(
+            width: 120,
+            height: 44,
+            child: ElevatedButton(
+              onPressed: onEditProfile ?? () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                elevation: 0,
               ),
-              elevation: 0,
-            ),
-            child: Text(
-              'Edit Profile',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Colors.white,
-                  ),
+              child: Text(
+                'Edit Profile',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Colors.white,
+                    ),
+              ),
             ),
           ),
-        ),
 
         const SizedBox(height: 16),
       ],

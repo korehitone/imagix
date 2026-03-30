@@ -40,14 +40,14 @@ class AppImageBox extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.image_outlined,
-                    color: AppColors.primary.withOpacity(0.4),
+                    color: AppColors.primary.withValues(alpha: 0.4),
                     size: 32,
                   ),
                   const SizedBox(height: 8),
                   Text(
                     'image',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: AppColors.primary.withOpacity(0.4),
+                          color: AppColors.primary.withValues(alpha: 0.4),
                         ),
                   ),
                 ],
