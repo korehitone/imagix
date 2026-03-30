@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'presentation/pages/edit_profile_page.dart';
+import 'presentation/pages/create_collection_page.dart';
 import 'core/theme/app_theme.dart';
 
 void main() {
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-      home: const EditProfilePage(),
+      home: const CreateCollectionPage(),
       //const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
