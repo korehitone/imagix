@@ -44,11 +44,24 @@ class _EditProfilePageState extends State<EditProfilePage> {
     super.dispose();
   }
 
+  Widget _buildLabel(String text) {
+    return SizedBox(
+      width: 300,
+      child: Text(
+        text,
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -56,7 +69,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           children: [
             const SizedBox(height: 12),
 
-            // Header
+            // Header (includes back button internally)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: AppHeader(title: 'Edit Profile'),
@@ -134,7 +147,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
                       // Save Profile Button
                       AppButton(
-                        label: 'Saved Profile',
+                        label: 'Save Profile',
                         onPressed: () {
                           // TODO: handle save profile
                         },
@@ -157,19 +170,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
         onTap: (index) {
           setState(() => _currentIndex = index);
         },
-      ),
-    );
-  }
-
-  Widget _buildLabel(String text) {
-    return SizedBox(
-      width: 300,
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
       ),
     );
   }

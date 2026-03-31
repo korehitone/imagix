@@ -21,16 +21,15 @@ class AppTextField extends StatelessWidget {
     this.maxLines = 1,
   });
 
-  OutlineInputBorder _border() => OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4),
-        borderSide: const BorderSide(color: AppColors.primary, width: 2),
-      );
-
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: width,
-      height: maxLines > 1 ? null : height, // avoid clipping multiline fields
+      height: maxLines > 1 ? null : height,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: AppColors.primary, width: 2),
+      ),
       child: TextField(
         controller: controller,
         obscureText: maxLines > 1 ? false : obscureText,
@@ -43,12 +42,11 @@ class AppTextField extends StatelessWidget {
                 color: Colors.grey,
               ),
           isDense: true,
+          border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
             vertical: 10,
           ),
-          enabledBorder: _border(),
-          focusedBorder: _border(),
         ),
       ),
     );

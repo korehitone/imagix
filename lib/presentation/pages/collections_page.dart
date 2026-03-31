@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-// import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_colors.dart';
 import '../widgets/app_back_button.dart';
 import '../widgets/app_bottom_nav.dart';
 import '../widgets/app_image_card.dart';
@@ -24,7 +23,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         bottom: false,
         child: Padding(
@@ -49,7 +48,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                   ),
                   // Edit icon
                   Padding(
-                    padding: const EdgeInsets.only(right: 4), // ← nudge left to align with card
+                    padding: const EdgeInsets.only(right: 4),
                     child: GestureDetector(
                       onTap: () {
                         // TODO: edit collection name
@@ -70,18 +69,16 @@ class _CollectionsPageState extends State<CollectionsPage> {
               Expanded(
                 child: GridView.builder(
                   itemCount: 10,
-                  padding: const EdgeInsets.symmetric(horizontal: 16), // ← justified left/right
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    crossAxisSpacing: 16, // ← gap between columns
-                    mainAxisSpacing: 16, // ← gap between rows
-                    childAspectRatio: 173 / 330, // ← 285 image + 7 gap + 24 title row
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
+                    childAspectRatio: 173 / 330,
                   ),
                   itemBuilder: (context, index) {
                     return AppDetails(
                       title: 'Title',
-                      onTap: () {},
-                      onMore: () {},
                     );
                   },
                 ),

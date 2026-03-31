@@ -34,22 +34,41 @@ class _ProfilePageState extends State<ProfilePage>
     super.dispose();
   }
 
+  Widget _buildGrid() {
+    return GridView.builder(
+      padding: EdgeInsets.zero,
+      itemCount: 10,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+        childAspectRatio: 173 / 329,
+      ),
+      itemBuilder: (context, index) {
+        return AppDetails(
+          title: 'Title',
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         bottom: false,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
-              // Back Button
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: AppBackButton(),
-              ),
+              // Back Button — only shown when viewing another user's profile
+              if (!widget.isOwnProfile)
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: AppBackButton(),
+                ),
 
               // Profile Header Widget
               AppProfileHeader(
@@ -83,43 +102,8 @@ class _ProfilePageState extends State<ProfilePage>
                 child: TabBarView(
                   controller: _tabController,
                   children: [
-                    // Created Tab
-                    GridView.builder(
-                      padding: EdgeInsets.zero,
-                      itemCount: 10,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 16, // Same as collections
-                        mainAxisSpacing: 16,  // Same as collections
-                        childAspectRatio: 173 / 329,
-                      ),
-                      itemBuilder: (context, index) {
-                        return AppDetails(
-                          title: 'Title',
-                          onTap: () {},
-                          onMore: () {},
-                        );
-                      },
-                    ),
-
-                    // Saved Tab
-                    GridView.builder(
-                      padding: EdgeInsets.zero,
-                      itemCount: 10,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 16,
-                        mainAxisSpacing: 16,
-                        childAspectRatio: 173 / 329,
-                      ),
-                      itemBuilder: (context, index) {
-                        return AppDetails(
-                          title: 'Title',
-                          onTap: () {},
-                          onMore: () {},
-                        );
-                      },
-                    ),
+                    _buildGrid(), // Created Tab
+                    _buildGrid(), // Saved Tab
                   ],
                 ),
               ),

@@ -18,117 +18,54 @@ class AppOverflowMenu {
     BuildContext context, {
     required List<AppOverflowMenuItem> items,
   }) {
-    showModalBottomSheet(
+    final RenderBox button = context.findRenderObject() as RenderBox;
+    final RenderBox overlay =
+        Navigator.of(context).overlay!.context.findRenderObject() as RenderBox;
+
+    final Offset buttonBottomRight = button.localToGlobal(
+      button.size.bottomRight(Offset.zero),
+      ancestor: overlay,
+    );
+
+    final RelativeRect position = RelativeRect.fromLTRB(
+      overlay.size.width,                        // no space on right → forces menu to open leftward
+      buttonBottomRight.dy,                      // top = just below the ellipsis
+      overlay.size.width - buttonBottomRight.dx, // right margin anchors menu's right edge to ellipsis
+      0,
+    );
+
+    showMenu(
       context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+      position: position,
+      color: Colors.white,
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+        side: BorderSide(color: AppColors.primary.withValues(alpha: 0.2)),
+      ),
+      items: items.map((item) {
+        return PopupMenuItem(
+          onTap: item.onTap,
+          height: 36,
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: AppColors.secondary.withValues(alpha: 0.85),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: items.asMap().entries.map((entry) {
-                    final index = entry.key;
-                    final item = entry.value;
-                    final isLast = index == items.length - 1;
-
-                    return Column(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                            item.onTap();
-                          },
-                          borderRadius: BorderRadius.circular(16),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 14,
-                            ),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 36,
-                                  height: 36,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(
-                                      color: Colors.black,
-                                      width: 1.5,
-                                    ),
-                                  ),
-                                  child: Icon(
-                                    item.icon,
-                                    color: Colors.black,
-                                    size: 20,
-                                  ),
-                                ),
-                                const SizedBox(width: 16),
-                                Text(
-                                  item.label,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.copyWith(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        if (!isLast)
-                          Divider(
-                            color: Colors.white.withValues(alpha: 0.3),
-                            height: 1,
-                            indent: 16,
-                            endIndent: 16,
-                          ),
-                      ],
-                    );
-                  }).toList(),
-                ),
+              Icon(
+                item.icon,
+                color: AppColors.primary,
+                size: 18,
               ),
-
-              const SizedBox(height: 8),
-
-              // Cancel button
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: InkWell(
-                  onTap: () => Navigator.pop(context),
-                  borderRadius: BorderRadius.circular(16),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: Center(
-                      child: Text(
-                        'Cancel',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
+              const SizedBox(width: 10),
+              Text(
+                item.label,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Colors.black,
                     ),
-                  ),
-                ),
               ),
             ],
           ),
         );
-      },
+      }).toList(),
     );
   }
 }

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../pages/upload_post_page.dart';
+import '../pages/home_page.dart';
+import '../pages/search_page.dart';
+import '../pages/saved_page.dart';
+import '../pages/profile_page.dart';
 import 'app_button.dart';
 import '../pages/create_collection_page.dart';
 
@@ -13,6 +17,35 @@ class AppBottomNav extends StatelessWidget {
     required this.currentIndex,
     required this.onTap,
   });
+
+  void _navigate(BuildContext context, int index) {
+    switch (index) {
+      case 0:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const HomePage()),
+        );
+        break;
+      case 1:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const SearchPage()),
+        );
+        break;
+      case 3:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const SavedPage()),
+        );
+        break;
+      case 4:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const ProfilePage()),
+        );
+        break;
+    }
+  }
 
   void _showCreateOptions(BuildContext context) {
     showModalBottomSheet(
@@ -101,8 +134,9 @@ class AppBottomNav extends StatelessWidget {
             onTap: (index) {
               if (index == 2) {
                 _showCreateOptions(context);
-              } else {
+              } else if (index != currentIndex) {
                 onTap(index);
+                _navigate(context, index);
               }
             },
             type: BottomNavigationBarType.fixed,

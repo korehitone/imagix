@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-// import '../widgets/app_back_button.dart';
+import '../../core/theme/app_colors.dart';
 import '../widgets/app_bottom_nav.dart';
 import '../widgets/app_collection_card.dart';
 import '../widgets/app_image_card.dart';
@@ -27,7 +26,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         bottom: false,
         child: Padding(
@@ -66,15 +65,13 @@ class _SearchPageState extends State<SearchPage> {
                 delegate: SliverChildBuilderDelegate(
                   (context, index) => AppCollectionCard(
                     title: 'Title',
-                    onTap: () {},
-                    onMore: () {},
                   ),
                   childCount: 4,
                 ),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 16, // ← left/right gap between cards
-                  mainAxisSpacing: 5,   // ← top/bottom gap between cards
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 5,
                   childAspectRatio: 173 / 151,
                 ),
               ),
@@ -98,8 +95,6 @@ class _SearchPageState extends State<SearchPage> {
                 delegate: SliverChildBuilderDelegate(
                   (context, index) => AppDetails(
                     title: 'Title',
-                    onTap: () {},
-                    onMore: () {},
                   ),
                   childCount: 10,
                 ),

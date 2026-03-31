@@ -11,7 +11,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 36.0),
@@ -28,9 +28,8 @@ class LoginPage extends StatelessWidget {
                   // Title
                   Text(
                     'IMAGIX',
-                    style: AppTestStyles.header.copyWith(
+                    style: AppTextStyles.header.copyWith(
                       color: AppColors.primary,
-                      fontSize: 40,
                     ),
                   ),
 
@@ -54,7 +53,7 @@ class LoginPage extends StatelessWidget {
                   const SizedBox(height: 20),
 
                   // Password
-                  AppTextField(
+                  const AppTextField(
                     hint: 'Password',
                     obscureText: true,
                   ),
@@ -78,7 +77,9 @@ class LoginPage extends StatelessWidget {
                     children: [
                       Text(
                         "Don't have an account? ",
-                        style: AppTestStyles.caption.copyWith(color: Colors.grey),
+                        style: AppTextStyles.caption.copyWith(
+                          color: Colors.grey,
+                        ),
                       ),
                       GestureDetector(
                         onTap: () {
@@ -86,7 +87,7 @@ class LoginPage extends StatelessWidget {
                         },
                         child: Text(
                           'Sign Up',
-                          style: AppTestStyles.caption.copyWith(
+                          style: AppTextStyles.caption.copyWith(
                             color: AppColors.primary,
                             fontWeight: FontWeight.bold,
                           ),

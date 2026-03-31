@@ -35,11 +35,24 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
     super.dispose();
   }
 
+  Widget _buildLabel(String text) {
+    return SizedBox(
+      width: 300,
+      child: Text(
+        text,
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -47,7 +60,7 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
           children: [
             const SizedBox(height: 12),
 
-            // Header
+            // Header (includes back button internally)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: AppHeader(
@@ -75,16 +88,7 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
                     children: [
 
                       // Collection Name Label
-                      SizedBox(
-                        width: 300,
-                        child: Text(
-                          'Collection Name',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                        ),
-                      ),
+                      _buildLabel('Collection Name'),
 
                       const SizedBox(height: 21),
 

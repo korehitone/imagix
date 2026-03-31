@@ -12,4 +12,9 @@ class AppTextStyles {
     color: Colors.black,
     fontWeight: FontWeight.bold,
   );
+
+  static TextStyle caption = GoogleFonts.itim(
+    fontSize: 13,
+    color: Colors.black,
+  );
 }

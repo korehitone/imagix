@@ -41,11 +41,24 @@ class _UploadPostPageState extends State<UploadPostPage> {
     super.dispose();
   }
 
+  Widget _buildLabel(String text) {
+    return SizedBox(
+      width: 300,
+      child: Text(
+        text,
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -53,7 +66,7 @@ class _UploadPostPageState extends State<UploadPostPage> {
           children: [
             const SizedBox(height: 12),
 
-            // Header
+            // Header (includes back button internally)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: AppHeader(
@@ -138,19 +151,6 @@ class _UploadPostPageState extends State<UploadPostPage> {
         onTap: (index) {
           setState(() => _currentIndex = index);
         },
-      ),
-    );
-  }
-
-  Widget _buildLabel(String text) {
-    return SizedBox(
-      width: 300,
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
       ),
     );
   }

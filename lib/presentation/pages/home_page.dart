@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../core/theme/app_colors.dart';
+import '../pages/image_details_page.dart';
 import '../widgets/app_bottom_nav.dart';
 import '../widgets/app_image_box.dart';
 
@@ -16,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         bottom: false,
         child: Padding(
@@ -31,9 +33,12 @@ class _HomePageState extends State<HomePage> {
             ),
             itemBuilder: (context, index) {
               return AppImageBox(
-                onTap: () {
-                  // TODO: Navigate to image detail
-                },
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const ImageDetailPage(),
+                  ),
+                ),
               );
             },
           ),

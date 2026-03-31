@@ -11,7 +11,7 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 36.0),
@@ -28,9 +28,8 @@ class SignUpPage extends StatelessWidget {
                   // Title
                   Text(
                     'IMAGIX',
-                    style: AppTestStyles.header.copyWith(
+                    style: AppTextStyles.header.copyWith(
                       color: AppColors.primary,
-                      fontSize: 40,
                     ),
                   ),
 
@@ -54,14 +53,14 @@ class SignUpPage extends StatelessWidget {
                   const SizedBox(height: 20),
 
                   // Username
-                  AppTextField(
+                  const AppTextField(
                     hint: 'Username',
                   ),
 
                   const SizedBox(height: 20),
 
                   // Password
-                  AppTextField(
+                  const AppTextField(
                     hint: 'Password',
                     obscureText: true,
                   ),
@@ -69,7 +68,7 @@ class SignUpPage extends StatelessWidget {
                   const SizedBox(height: 20),
 
                   // Confirm Password
-                  AppTextField(
+                  const AppTextField(
                     hint: 'Confirm Password',
                     obscureText: true,
                   ),
@@ -93,7 +92,9 @@ class SignUpPage extends StatelessWidget {
                     children: [
                       Text(
                         'Already have an account? ',
-                        style: AppTestStyles.caption.copyWith(color: Colors.grey),
+                        style: AppTextStyles.caption.copyWith(
+                          color: Colors.grey,
+                        ),
                       ),
                       GestureDetector(
                         onTap: () {
@@ -101,7 +102,7 @@ class SignUpPage extends StatelessWidget {
                         },
                         child: Text(
                           'Log In',
-                          style: AppTestStyles.caption.copyWith(
+                          style: AppTextStyles.caption.copyWith(
                             color: AppColors.primary,
                             fontWeight: FontWeight.bold,
                           ),

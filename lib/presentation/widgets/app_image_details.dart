@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
+import 'app_comment_sheet.dart';
 
 class AppImageActions extends StatefulWidget {
   final String title;
   final String description;
-  final VoidCallback? onCommentTap;
   final VoidCallback? onMoreTap;
   final ValueChanged<bool>? onLikedChanged;
 
@@ -12,7 +12,6 @@ class AppImageActions extends StatefulWidget {
     super.key,
     required this.title,
     required this.description,
-    this.onCommentTap,
     this.onMoreTap,
     this.onLikedChanged,
   });
@@ -52,8 +51,9 @@ class _AppImageActionsState extends State<AppImageActions> {
 
                 const SizedBox(width: 16),
 
+                // Comment icon — opens comment sheet directly
                 GestureDetector(
-                  onTap: widget.onCommentTap,
+                  onTap: () => AppCommentSheet.show(context),
                   child: const Icon(
                     Icons.chat_bubble_outline,
                     color: Colors.black,
