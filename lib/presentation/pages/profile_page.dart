@@ -4,6 +4,7 @@ import '../widgets/app_back_button.dart';
 import '../widgets/app_bottom_nav.dart';
 import '../widgets/app_image_card.dart';
 import '../widgets/app_profile_header.dart';
+import '../pages/edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
   final bool isOwnProfile;
@@ -72,13 +73,19 @@ class _ProfilePageState extends State<ProfilePage>
 
               // Profile Header Widget
               AppProfileHeader(
-                username: 'Username',
-                bio: 'Bio Description',
-                isOwnProfile: widget.isOwnProfile,
-                onEditProfile: () {
-                  // TODO: Navigate to edit profile
-                },
-              ),
+  username: 'Username',
+  bio: 'Bio Description',
+  isOwnProfile: widget.isOwnProfile,
+  onEditProfile: () => Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => EditProfilePage(
+        existingUsername: 'Username',
+        existingBio: 'Bio Description',
+      ),
+    ),
+  ),
+),
 
               // Created / Saved Tabs
               TabBar(

@@ -30,7 +30,7 @@ class _ImageDetailPageState extends State<ImageDetailPage> {
       backgroundColor: AppColors.background,
       body: SafeArea(
         bottom: false,
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -74,6 +74,8 @@ class _ImageDetailPageState extends State<ImageDetailPage> {
                 title: widget.title,
                 description: widget.description,
               ),
+
+              const SizedBox(height: 100), // padding for bottom nav
             ],
           ),
         ),

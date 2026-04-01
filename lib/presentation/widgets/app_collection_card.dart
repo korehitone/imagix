@@ -14,22 +14,22 @@ class AppCollectionCard extends StatelessWidget {
   });
 
   void _openOverflowMenu(BuildContext context) {
-  AppOverflowMenu.show(
-    context,
-    items: [
-      AppOverflowMenuItem(
-        icon: Icons.edit_outlined,
-        label: 'Edit',
-        onTap: () {},
-      ),
-      AppOverflowMenuItem(
-        icon: Icons.delete_outline,
-        label: 'Delete',
-        onTap: () {},
-      ),
-    ],
-  );
-}
+    AppOverflowMenu.show(
+      context,
+      items: [
+        AppOverflowMenuItem(
+          icon: Icons.edit_outlined,
+          label: 'Edit',
+          onTap: () {},
+        ),
+        AppOverflowMenuItem(
+          icon: Icons.delete_outline,
+          label: 'Delete',
+          onTap: () {},
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,29 +73,28 @@ class AppCollectionCard extends StatelessWidget {
         const SizedBox(height: 7),
 
         // Title + Ellipsis
-        // Title + Ellipsis
-Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: [
-    Text(
-      title,
-      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-    ),
-    Builder(
-      builder: (iconContext) => GestureDetector(
-        onTap: () => _openOverflowMenu(iconContext),
-        child: const Icon(
-          Icons.more_horiz,
-          color: Colors.black,
-          size: 24,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            Builder(
+              builder: (btnContext) => GestureDetector(
+                onTap: () => _openOverflowMenu(btnContext),
+                child: const Icon(
+                  Icons.more_horiz,
+                  color: Colors.black,
+                  size: 24,
+                ),
+              ),
+            ),
+          ],
         ),
-      ),
-    ),
-  ],
-),
       ],
     );
   }

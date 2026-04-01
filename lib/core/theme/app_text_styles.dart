@@ -10,7 +10,6 @@ class AppTextStyles {
   static TextStyle header = GoogleFonts.itim(
     fontSize: 40,
     color: Colors.black,
-    fontWeight: FontWeight.bold,
   );
 
   static TextStyle caption = GoogleFonts.itim(

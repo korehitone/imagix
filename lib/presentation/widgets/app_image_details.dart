@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
+import '../pages/profile_page.dart';
 import 'app_comment_sheet.dart';
+import 'app_overflow_menu.dart';
+import 'app_collection_picker_sheet.dart';
 
 class AppImageActions extends StatefulWidget {
   final String title;
   final String description;
-  final VoidCallback? onMoreTap;
+  final bool isOwner;
   final ValueChanged<bool>? onLikedChanged;
 
   const AppImageActions({
     super.key,
     required this.title,
     required this.description,
-    this.onMoreTap,
+    this.isOwner = false,
     this.onLikedChanged,
   });
 
@@ -26,6 +29,45 @@ class _AppImageActionsState extends State<AppImageActions> {
   void _toggleLike() {
     setState(() => _liked = !_liked);
     widget.onLikedChanged?.call(_liked);
+  }
+
+  void _openOverflowMenu(BuildContext context) {
+    AppOverflowMenu.show(
+      context,
+      items: [
+        // Owner only
+        if (widget.isOwner) ...[
+          AppOverflowMenuItem(
+            icon: Icons.edit_outlined,
+            label: 'Edit',
+            onTap: () {},
+          ),
+          AppOverflowMenuItem(
+            icon: Icons.delete_outline,
+            label: 'Delete',
+            onTap: () {},
+          ),
+        ],
+        // Non-owner only
+        if (!widget.isOwner) ...[
+          AppOverflowMenuItem(
+            icon: Icons.person_outline,
+            label: 'Profile',
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const ProfilePage(isOwnProfile: false),
+              ),
+            ),
+          ),
+          AppOverflowMenuItem(
+            icon: Icons.bookmark_outline,
+            label: 'Save',
+            onTap: () => AppCollectionPickerSheet.show(context),
+          ),
+        ],
+      ],
+    );
   }
 
   @override
@@ -63,12 +105,15 @@ class _AppImageActionsState extends State<AppImageActions> {
 
                 const Spacer(),
 
-                GestureDetector(
-                  onTap: widget.onMoreTap,
-                  child: const Icon(
-                    Icons.more_horiz,
-                    color: Colors.black,
-                    size: 28,
+                // Builder gives ellipsis its own local context
+                Builder(
+                  builder: (btnContext) => GestureDetector(
+                    onTap: () => _openOverflowMenu(btnContext),
+                    child: const Icon(
+                      Icons.more_horiz,
+                      color: Colors.black,
+                      size: 28,
+                    ),
                   ),
                 ),
               ],

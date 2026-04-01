@@ -3,17 +3,20 @@ import '../../core/theme/app_colors.dart';
 import '../pages/image_details_page.dart';
 import '../pages/profile_page.dart';
 import 'app_overflow_menu.dart';
+import 'app_collection_picker_sheet.dart';
 
 class AppDetails extends StatelessWidget {
   final String? imageUrl;
   final String title;
   final String description;
+  final bool isOwner; // ← add this
 
   const AppDetails({
     super.key,
     this.imageUrl,
     this.title = 'Title',
     this.description = 'Description',
+    this.isOwner = false, // ← default to false (safer)
   });
 
   void _openOverflowMenu(BuildContext context) {
@@ -40,25 +43,30 @@ class AppDetails extends StatelessWidget {
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => const ProfilePage(isOwnProfile: false),
+              builder: (_) => ProfilePage(isOwnProfile: isOwner),
             ),
           ),
         ),
-        AppOverflowMenuItem(
-          icon: Icons.edit_outlined,
-          label: 'Edit',
-          onTap: () {},
-        ),
-        AppOverflowMenuItem(
-          icon: Icons.bookmark_outline,
-          label: 'Save',
-          onTap: () {},
-        ),
-        AppOverflowMenuItem(
-          icon: Icons.delete_outline,
-          label: 'Delete',
-          onTap: () {},
-        ),
+        // Only show if user owns the post
+        if (isOwner) ...[
+          AppOverflowMenuItem(
+            icon: Icons.edit_outlined,
+            label: 'Edit',
+            onTap: () {},
+          ),
+          AppOverflowMenuItem(
+            icon: Icons.delete_outline,
+            label: 'Delete',
+            onTap: () {},
+          ),
+        ],
+        // Only show if user does NOT own the post
+        if (!isOwner)
+          AppOverflowMenuItem(
+            icon: Icons.bookmark_outline,
+            label: 'Save',
+            onTap: () => AppCollectionPickerSheet.show(context),
+          ),
       ],
     );
   }
@@ -109,28 +117,28 @@ class AppDetails extends StatelessWidget {
         const SizedBox(height: 7),
 
         // Title + Ellipsis
-Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: [
-    Text(
-      title,
-      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-    ),
-    Builder(
-      builder: (iconContext) => GestureDetector(
-        onTap: () => _openOverflowMenu(iconContext),
-        child: const Icon(
-          Icons.more_horiz,
-          color: Colors.black,
-          size: 24,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            Builder(
+              builder: (btnContext) => GestureDetector(
+                onTap: () => _openOverflowMenu(btnContext),
+                child: const Icon(
+                  Icons.more_horiz,
+                  color: Colors.black,
+                  size: 24,
+                ),
+              ),
+            ),
+          ],
         ),
-      ),
-    ),
-  ],
-),
       ],
     );
   }
