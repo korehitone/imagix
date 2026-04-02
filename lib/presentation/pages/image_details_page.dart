@@ -75,7 +75,7 @@ class _ImageDetailPageState extends State<ImageDetailPage> {
                 description: widget.description,
               ),
 
-              const SizedBox(height: 100), // padding for bottom nav
+              SizedBox(height: 80 + MediaQuery.of(context).padding.bottom), // padding for bottom nav
             ],
           ),
         ),

@@ -58,64 +58,70 @@ class AppBottomNav extends StatelessWidget {
     return Container(
       width: double.infinity,
       color: AppColors.primary,
-      child: SizedBox(
-        height: 80 + bottomPadding,
-        child: Padding(
-          padding: EdgeInsets.only(bottom: bottomPadding),
-          child: BottomNavigationBar(
-            currentIndex: currentIndex,
-            onTap: (index) {
-              if (index != currentIndex) {
-                if (index == 2) {
-                  _navigate(context, index);
-                } else {
-                  onTap(index);
-                  _navigate(context, index);
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Nav bar fixed at 80 height — icons always centered
+          SizedBox(
+            height: 80,
+            child: BottomNavigationBar(
+              currentIndex: currentIndex,
+              onTap: (index) {
+                if (index != currentIndex) {
+                  if (index == 2) {
+                    _navigate(context, index);
+                  } else {
+                    onTap(index);
+                    _navigate(context, index);
+                  }
                 }
-              }
-            },
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: AppColors.primary,
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.white.withValues(alpha: 0.6),
-            selectedFontSize: 11,
-            unselectedFontSize: 11,
-            elevation: 0,
-            selectedLabelStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Colors.white,
+              },
+              type: BottomNavigationBarType.fixed,
+              backgroundColor: AppColors.primary,
+              selectedItemColor: Colors.white,
+              unselectedItemColor: Colors.white.withValues(alpha: 0.6),
+              selectedFontSize: 11,
+              unselectedFontSize: 11,
+              elevation: 0,
+              selectedLabelStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Colors.white,
+                  ),
+              unselectedLabelStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Colors.white.withValues(alpha: 0.6),
+                  ),
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.explore_outlined),
+                  activeIcon: Icon(Icons.explore),
+                  label: 'Explore',
                 ),
-            unselectedLabelStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Colors.white.withValues(alpha: 0.6),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.search_outlined),
+                  activeIcon: Icon(Icons.search),
+                  label: 'Search',
                 ),
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.explore_outlined),
-                activeIcon: Icon(Icons.explore),
-                label: 'Explore',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.search_outlined),
-                activeIcon: Icon(Icons.search),
-                label: 'Search',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.add_circle_outline),
-                activeIcon: Icon(Icons.add_circle),
-                label: 'Create',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.bookmark_outline),
-                activeIcon: Icon(Icons.bookmark),
-                label: 'Saved',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person_outline),
-                activeIcon: Icon(Icons.person),
-                label: 'Profile',
-              ),
-            ],
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.add_circle_outline),
+                  activeIcon: Icon(Icons.add_circle),
+                  label: 'Create',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.bookmark_outline),
+                  activeIcon: Icon(Icons.bookmark),
+                  label: 'Saved',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person_outline),
+                  activeIcon: Icon(Icons.person),
+                  label: 'Profile',
+                ),
+              ],
+            ),
           ),
-        ),
+
+          // System nav bar padding fills below
+          SizedBox(height: bottomPadding),
+        ],
       ),
     );
   }
