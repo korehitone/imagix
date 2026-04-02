@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'presentation/pages/home_page.dart';
 import 'core/theme/app_theme.dart';
+import 'package:flutter/services.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   runApp(const MyApp());
 }
 
