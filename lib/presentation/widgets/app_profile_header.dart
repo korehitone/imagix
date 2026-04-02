@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
+import '../pages/edit_profile_page.dart';
 
 class AppProfileHeader extends StatelessWidget {
   final String username;
-  final String bio;
+  final String email;
   final String posts;
   final String followers;
   final String following;
   final String collections;
   final String? imageUrl;
-  final VoidCallback? onEditProfile;
   final bool isOwnProfile;
 
   const AppProfileHeader({
     super.key,
     this.username = 'Username',
-    this.bio = 'Bio Description',
+    this.email = 'email@example.com',
     this.posts = '6.7K',
     this.followers = '6.7K',
     this.following = '6.7K',
     this.collections = '6.7K',
     this.imageUrl,
-    this.onEditProfile,
     this.isOwnProfile = true,
   });
 
@@ -29,14 +28,14 @@ class AppProfileHeader extends StatelessWidget {
     return Column(
       children: [
         Text(
-          value, // value on top
+          value,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
         ),
         Text(
-          label, // label below
+          label,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Colors.black,
               ),
@@ -82,6 +81,16 @@ class AppProfileHeader extends StatelessWidget {
               ),
         ),
 
+        const SizedBox(height: 4),
+
+        // Email
+        Text(
+          email,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Colors.grey,
+              ),
+        ),
+
         const SizedBox(height: 16),
 
         // Stats Row
@@ -97,32 +106,18 @@ class AppProfileHeader extends StatelessWidget {
 
         const SizedBox(height: 16),
 
-        // Bio
-        Container(
-          width: double.infinity,
-          constraints: const BoxConstraints(minHeight: 80),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.primary, width: 2),
-          ),
-          child: Text(
-            bio,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.black,
-                ),
-          ),
-        ),
-
-        const SizedBox(height: 16),
-
         // Edit Profile Button
         if (isOwnProfile)
           SizedBox(
             width: 120,
             height: 44,
             child: ElevatedButton(
-              onPressed: onEditProfile ?? () {},
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const EditProfilePage(),
+                ),
+              ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,

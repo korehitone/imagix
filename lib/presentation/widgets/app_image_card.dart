@@ -9,14 +9,16 @@ class AppDetails extends StatelessWidget {
   final String? imageUrl;
   final String title;
   final String description;
-  final bool isOwner; // ← add this
+  final bool isOwner;
+  final bool inCollection;
 
   const AppDetails({
     super.key,
     this.imageUrl,
     this.title = 'Title',
     this.description = 'Description',
-    this.isOwner = false, // ← default to false (safer)
+    this.isOwner = false,
+    this.inCollection = false,
   });
 
   void _openOverflowMenu(BuildContext context) {
@@ -47,7 +49,7 @@ class AppDetails extends StatelessWidget {
             ),
           ),
         ),
-        // Only show if user owns the post
+        // Owner only
         if (isOwner) ...[
           AppOverflowMenuItem(
             icon: Icons.edit_outlined,
@@ -60,12 +62,21 @@ class AppDetails extends StatelessWidget {
             onTap: () {},
           ),
         ],
-        // Only show if user does NOT own the post
+        // Non-owner only
         if (!isOwner)
           AppOverflowMenuItem(
             icon: Icons.bookmark_outline,
             label: 'Save',
             onTap: () => AppCollectionPickerSheet.show(context),
+          ),
+        // Show Remove only when inside a collection
+        if (inCollection)
+          AppOverflowMenuItem(
+            icon: Icons.remove_circle_outline,
+            label: 'Remove',
+            onTap: () {
+              // TODO: handle remove from collection
+            },
           ),
       ],
     );

@@ -3,6 +3,7 @@ import '../../core/theme/app_colors.dart';
 import '../widgets/app_back_button.dart';
 import '../widgets/app_bottom_nav.dart';
 import '../widgets/app_image_card.dart';
+import 'create_collection_page.dart';
 
 class CollectionsPage extends StatefulWidget {
   final String collectionName;
@@ -50,9 +51,15 @@ class _CollectionsPageState extends State<CollectionsPage> {
                   Padding(
                     padding: const EdgeInsets.only(right: 4),
                     child: GestureDetector(
-                      onTap: () {
-                        // TODO: edit collection name
-                      },
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => CreateCollectionPage(
+                            isEditMode: true,
+                            existingName: widget.collectionName,
+                          ),
+                        ),
+                      ),
                       child: const Icon(
                         Icons.edit_outlined,
                         color: Colors.black,
@@ -79,6 +86,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                   itemBuilder: (context, index) {
                     return AppDetails(
                       title: 'Title',
+                      inCollection: true,
                     );
                   },
                 ),

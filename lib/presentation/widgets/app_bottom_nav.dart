@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
-import '../pages/upload_post_page.dart';
 import '../pages/home_page.dart';
 import '../pages/search_page.dart';
 import '../pages/saved_page.dart';
 import '../pages/profile_page.dart';
-import 'app_button.dart';
-import '../pages/create_collection_page.dart';
+import '../pages/create_page.dart';
 
 class AppBottomNav extends StatelessWidget {
   final int currentIndex;
@@ -32,6 +30,12 @@ class AppBottomNav extends StatelessWidget {
           MaterialPageRoute(builder: (_) => const SearchPage()),
         );
         break;
+      case 2:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const CreatePage()),
+        );
+        break;
       case 3:
         Navigator.pushReplacement(
           context,
@@ -47,78 +51,6 @@ class AppBottomNav extends StatelessWidget {
     }
   }
 
-  void _showCreateOptions(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 32),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Drag handle
-              Container(
-                width: 40,
-                height: 4,
-                margin: const EdgeInsets.only(bottom: 32),
-                decoration: BoxDecoration(
-                  color: Colors.grey.withValues(alpha: 0.4),
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-
-              // Upload Post Button
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: AppButton(
-                  label: 'Upload Post',
-                  onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const UploadPostPage(),
-                      ),
-                    );
-                  },
-                  variant: AppButtonVariant.filled,
-                  width: double.infinity,
-                ),
-              ),
-
-              const SizedBox(height: 16),
-
-              // Collection Button
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: AppButton(
-                  label: 'Create Collection',
-                  onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const CreateCollectionPage(),
-                      ),
-                    );
-                  },
-                  variant: AppButtonVariant.outlined,
-                  width: double.infinity,
-                ),
-              ),
-
-              const SizedBox(height: 16),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return MediaQuery.removePadding(
@@ -132,11 +64,14 @@ class AppBottomNav extends StatelessWidget {
           child: BottomNavigationBar(
             currentIndex: currentIndex,
             onTap: (index) {
-              if (index == 2) {
-                _showCreateOptions(context);
-              } else if (index != currentIndex) {
-                onTap(index);
-                _navigate(context, index);
+              if (index != currentIndex) {
+                if (index == 2) {
+                  // Don't update currentIndex for Create tab
+                  _navigate(context, index);
+                } else {
+                  onTap(index);
+                  _navigate(context, index);
+                }
               }
             },
             type: BottomNavigationBarType.fixed,
