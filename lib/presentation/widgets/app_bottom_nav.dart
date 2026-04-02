@@ -53,20 +53,20 @@ class AppBottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.removePadding(
-      context: context,
-      removeBottom: true,
-      child: Container(
-        width: double.infinity,
-        color: AppColors.primary,
-        child: SizedBox(
-          height: 80,
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
+
+    return Container(
+      width: double.infinity,
+      color: AppColors.primary,
+      child: SizedBox(
+        height: 80 + bottomPadding,
+        child: Padding(
+          padding: EdgeInsets.only(bottom: bottomPadding),
           child: BottomNavigationBar(
             currentIndex: currentIndex,
             onTap: (index) {
               if (index != currentIndex) {
                 if (index == 2) {
-                  // Don't update currentIndex for Create tab
                   _navigate(context, index);
                 } else {
                   onTap(index);

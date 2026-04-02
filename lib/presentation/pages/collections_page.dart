@@ -81,7 +81,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 16,
                     mainAxisSpacing: 16,
-                    childAspectRatio: 173 / 330,
+                    mainAxisExtent: 316,
                   ),
                   itemBuilder: (context, index) {
                     return AppDetails(
