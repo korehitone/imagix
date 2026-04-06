@@ -158,10 +158,19 @@ class CollectionDetailViewModel
         await refresh(collectionId);
 
         final myId = _authUseCase.getCurrentUser.invoke()?.id;
-        ref.invalidate(DependencyModule.profileViewModelProvider(null));
+        await ref
+            .read(DependencyModule.profileViewModelProvider(null).notifier)
+            .init(null);
+
         if (myId != null) {
-          ref.invalidate(DependencyModule.profileViewModelProvider(myId));
+          await ref
+              .read(DependencyModule.profileViewModelProvider(myId).notifier)
+              .init(myId);
         }
+
+        await ref
+            .read(DependencyModule.profileCollectionsViewModelProvider.notifier)
+            .refresh();
         break;
 
       case Error(error: final msg):
@@ -179,10 +188,19 @@ class CollectionDetailViewModel
       case Success():
         final myId = _authUseCase.getCurrentUser.invoke()?.id;
 
-        ref.invalidate(DependencyModule.profileViewModelProvider(null));
+        await ref
+            .read(DependencyModule.profileViewModelProvider(null).notifier)
+            .init(null);
+
         if (myId != null) {
-          ref.invalidate(DependencyModule.profileViewModelProvider(myId));
+          await ref
+              .read(DependencyModule.profileViewModelProvider(myId).notifier)
+              .init(myId);
         }
+
+        await ref
+            .read(DependencyModule.profileCollectionsViewModelProvider.notifier)
+            .refresh();
 
         return true;
 

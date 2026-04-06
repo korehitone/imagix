@@ -25,7 +25,7 @@ class CollectionFormViewModel extends AsyncNotifier<bool> {
 
     switch (result) {
       case Success():
-        _refreshProfileCollections();
+        await _refreshProfileCollections();
         state = const AsyncData(true);
         break;
 
@@ -45,7 +45,7 @@ class CollectionFormViewModel extends AsyncNotifier<bool> {
 
     switch (result) {
       case Success():
-        _refreshProfileCollections();
+        await _refreshProfileCollections();
         state = const AsyncData(true);
         break;
 
@@ -55,12 +55,21 @@ class CollectionFormViewModel extends AsyncNotifier<bool> {
     }
   }
 
-  void _refreshProfileCollections() {
+  Future<void> _refreshProfileCollections() async {
     final myId = _authUseCase.getCurrentUser.invoke()?.id;
 
-    ref.invalidate(DependencyModule.profileViewModelProvider(null));
+    await ref
+        .read(DependencyModule.profileViewModelProvider(null).notifier)
+        .init(null);
+
     if (myId != null) {
-      ref.invalidate(DependencyModule.profileViewModelProvider(myId));
+      await ref
+          .read(DependencyModule.profileViewModelProvider(myId).notifier)
+          .init(myId);
     }
+
+    await ref
+        .read(DependencyModule.profileCollectionsViewModelProvider.notifier)
+        .refresh();
   }
 }

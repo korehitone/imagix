@@ -88,4 +88,10 @@ class UploadViewModel extends AsyncNotifier<Post?> {
           .refresh(myId);
     }
   }
+
+  // PERLU DITAMBAHKAN:
+  // reset state upload setelah sukses/error sudah dipakai UI
+  void resetState() {
+    state = const AsyncData(null);
+  }
 }

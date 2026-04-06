@@ -107,41 +107,60 @@ class _UploadPostPageState extends ConsumerState<UploadPostPage> {
   @override
   Widget build(BuildContext context) {
     ref.listen(DependencyModule.uploadViewModelProvider, (prev, next) {
-      if (next is AsyncData) {
-        // SEMUA REFRESH SUDAH DIHANDLE VIEWMODEL
-        if (context.mounted) {
-          context.pop(); // Balik ke halaman sebelumnya
+      next.whenOrNull(
+        data: (post) {
+          // PERLU DIPERHATIKAN:
+          // abaikan state awal/reset = null
+          if (post == null && !widget.isEditMode) return;
+
+          final messenger = ScaffoldMessenger.of(context);
+          final router = GoRouter.of(context);
+
+          // reset dulu supaya listener tidak nembak lagi saat balik
+          ref
+              .read(DependencyModule.uploadViewModelProvider.notifier)
+              .resetState();
 
           if (widget.isEditMode) {
-            context.showMsg("Post updated successfully!");
-          } else {
-            // Mode Upload: Kasih SnackBar dengan tombol VIEW
-            final newPost = next.value;
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: const Text("Post uploaded successfully!"),
-                backgroundColor: Colors.green,
+            if (!context.mounted) return;
+            context.pop();
+            messenger.showSnackBar(
+              const SnackBar(
+                content: Text("Post updated successfully!"),
                 behavior: SnackBarBehavior.floating,
-                action: newPost != null
-                    ? SnackBarAction(
-                        label: "VIEW",
-                        textColor: Colors.white,
-                        onPressed: () => GoRouter.of(
-                          context,
-                        ).push(AppRoute.imageDetail, extra: newPost),
-                      )
-                    : null,
               ),
             );
+            return;
           }
-        }
-        // Penting: Reset state upload biar gak trigger listener pas balik lagi
-        ref.invalidate(DependencyModule.uploadViewModelProvider);
-      }
 
-      if (next is AsyncError) {
-        context.showMsg(next.error.toString());
-      }
+          if (!context.mounted) return;
+          context.pop();
+
+          messenger.hideCurrentSnackBar();
+          messenger.showSnackBar(
+            SnackBar(
+              content: const Text("Post uploaded successfully!"),
+              backgroundColor: Colors.green,
+              behavior: SnackBarBehavior.floating,
+              action: post != null
+                  ? SnackBarAction(
+                      label: "VIEW",
+                      textColor: Colors.white,
+                      onPressed: () {
+                        router.push(AppRoute.imageDetail, extra: post);
+                      },
+                    )
+                  : null,
+            ),
+          );
+        },
+        error: (e, stack) {
+          context.showMsg(e.toString());
+          ref
+              .read(DependencyModule.uploadViewModelProvider.notifier)
+              .resetState();
+        },
+      );
     });
     final state = ref.watch(DependencyModule.uploadViewModelProvider);
     final isLoading = state is AsyncLoading;

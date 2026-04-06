@@ -212,12 +212,28 @@ class ImageDetailViewModel extends AsyncNotifier<ImageDetailData> {
     switch (result) {
       case Success(data: final isLikedResult):
         // FINAL SYNC: Pakai data asli dari server
+
         _updateState(
           (current) =>
               current.copyWith(post: postBefore.syncLikeState(isLikedResult)),
         );
-        break;
+        // sinkronkan semua list yang mungkin menampilkan post ini
+        await ref
+            .read(DependencyModule.homeViewModelProvider.notifier)
+            .refresh();
+        await ref
+            .read(DependencyModule.likedViewModelProvider.notifier)
+            .refresh();
 
+        final myId = _authUseCase.getCurrentUser.invoke()?.id;
+        if (myId != null) {
+          await ref
+              .read(
+                DependencyModule.profilePostViewModelProvider(myId).notifier,
+              )
+              .refresh(myId);
+        }
+        break;
       case Error(error: final msg):
         // --- 4. ROLLBACK ---
         // Kalau gagal, balikin ke data SEBELUM dipencet (postBefore)
