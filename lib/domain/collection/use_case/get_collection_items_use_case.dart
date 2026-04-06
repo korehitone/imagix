@@ -13,13 +13,19 @@ class GetCollectionItemsUseCase {
     this._authRepository,
   );
 
-  Future<ResultState<List<CollectionItem>>> invoke(String collectionId) async {
+  Future<ResultState<List<CollectionItem>>> invoke(
+    String collectionId, {
+    required int offset,
+    required int limit,
+  }) async {
     final user = _authRepository.getCurrentUser();
     if (user == null) {
       return const Error("Session expired. Please log in.");
     }
     final result = await _collectionItemRepository.getItemsByCollection(
       collectionId,
+      offset: offset,
+      limit: limit,
     );
     return switch (result) {
       Success(data: final list) => Success(list),

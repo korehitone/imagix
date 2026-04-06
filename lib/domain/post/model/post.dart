@@ -24,4 +24,47 @@ class Post {
     required this.isLiked,
     required this.createdAt,
   });
+
+  Post toggleLike() {
+    return copyWith(
+      isLiked: !isLiked,
+      totalLikes: isLiked ? totalLikes - 1 : totalLikes + 1,
+    );
+  }
+
+  Post syncLikeState(bool finalIsLiked) {
+    if (isLiked == finalIsLiked) return this; // Kalo udah sama, ya udah
+    return copyWith(
+      isLiked: finalIsLiked,
+      totalLikes: finalIsLiked ? totalLikes + 1 : totalLikes - 1,
+    );
+  }
+
+  Post updateCommentCount(bool isIncrement) {
+    return copyWith(
+      totalComments: isIncrement ? totalComments + 1 : totalComments - 1,
+    );
+  }
+
+  Post copyWith({
+    String? id,
+    String? title,
+    String? description,
+    bool? isLiked,
+    int? totalLikes,
+    int? totalComments,
+  }) {
+    return Post(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      image: image,
+      totalComments: totalComments ?? this.totalComments,
+      userId: userId,
+      authorUsername: authorUsername,
+      createdAt: createdAt,
+      isLiked: isLiked ?? this.isLiked,
+      totalLikes: totalLikes ?? this.totalLikes,
+    );
+  }
 }

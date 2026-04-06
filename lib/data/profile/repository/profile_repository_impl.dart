@@ -16,6 +16,29 @@ class ProfileRepositoryImpl implements ProfileRepository {
   ProfileRepositoryImpl(this._client);
 
   @override
+  Future<ResultState<List<Profile>>> getProfilesByQuery(
+    String query, {
+    required int offset,
+    required int limit,
+  }) async {
+    try {
+      final response = await _client
+          .from('profile_view')
+          .select()
+          .or('username.ilike.%$query%')
+          .range(offset, offset + limit - 1);
+      return Success(
+        response
+            .decodeList(ProfileResponse.fromJson)
+            .map((dto) => dto.toDomain())
+            .toList(),
+      );
+    } catch (e) {
+      return Error(ExceptionHandler.handle(e));
+    }
+  }
+
+  @override
   Future<ResultState<Profile>> getProfile(
     String currentAuthId,
     String userId,
@@ -28,7 +51,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
           .maybeSingle();
 
       final profile = response
-          .decodeSingle(ProfileViewResponse.fromJson)
+          .decodeSingle(ProfileResponse.fromJson)
           ?.toDomain();
 
       if (profile == null) {
@@ -78,7 +101,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
           .from('users')
           .update(update)
           .eq('id', userId)
-          .select('id')
+          .select()
           .maybeSingle();
 
       if (response == null) {

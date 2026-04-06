@@ -15,3 +15,13 @@ class Error<T> extends ResultState<T> {
   final String error;
   const Error(this.error);
 }
+
+extension ResultStateX<T> on ResultState<T> {
+  // Fungsi pembantu buat 'ngupas' otomatis buat Riverpod
+  T getOrThrow() {
+    return switch (this) {
+      Success(data: final d) => d,
+      Error(error: final msg) => throw msg, // Lempar biar ditangkep .guard
+    };
+  }
+}

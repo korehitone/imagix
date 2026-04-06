@@ -16,6 +16,13 @@ class UpdateProfileUseCase {
       return const Error("Username can not be empty.");
     }
 
+    final usernameRegex = RegExp(r'^[A-Za-z0-9._]+$');
+    if (!usernameRegex.hasMatch(request.username)) {
+      return const Error(
+        "Username can only contain letters, numbers, underscore (_) and dot (.).",
+      );
+    }
+
     final user = _authRepository.getCurrentUser();
     if (user == null) {
       return const Error("Session expired. Please sign in again.");

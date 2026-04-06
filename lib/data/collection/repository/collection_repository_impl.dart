@@ -13,20 +13,55 @@ class CollectionRepositoryImpl implements CollectionRepository {
 
   @override
   Future<ResultState<List<Collection>>> getUserCollections(
-    String userId,
-  ) async {
+    String userId, {
+    required int offset,
+    required int limit,
+  }) async {
     try {
       final response = await _client
           .from('collection_list_view')
           .select()
           .eq('user_id', userId)
-          .order('created_at', ascending: false);
+          .order('created_at', ascending: false)
+          .range(offset, offset + limit - 1);
 
       return Success(
         response
             .decodeList(CollectionListViewResponse.fromJson)
             .map((dto) => dto.toDomain())
             .toList(),
+      );
+    } catch (e) {
+      return Error(ExceptionHandler.handle(e));
+    }
+  }
+
+  @override
+  Future<ResultState<List<Collection>>> getUserCollectionsWithSaved(
+    String userId,
+    String postId,
+  ) async {
+    try {
+      final response = await _client
+          .from('collection_list_view')
+          .select()
+          .eq('user_id', userId);
+
+      final savedItems = await _client
+          .from('collection_item_list_view')
+          .select('collection_id')
+          .eq('id', postId);
+
+      final Set<String> savedIds = (savedItems as List)
+          .map((e) => e['collection_id'].toString())
+          .toSet();
+
+      return Success(
+        response.decodeList(CollectionListViewResponse.fromJson).map((dto) {
+          final domain = dto.toDomain();
+
+          return domain.copyWith(isSaved: savedIds.contains(domain.id));
+        }).toList(),
       );
     } catch (e) {
       return Error(ExceptionHandler.handle(e));

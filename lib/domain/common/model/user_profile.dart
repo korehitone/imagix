@@ -1,9 +1,11 @@
+import 'package:imagix/domain/profile/model/profile.dart';
+
 class UserProfile {
   final String id;
   final String username;
-  final String email;
-  final String bio;
-  final String photo;
+  final String? email;
+  final String? bio;
+  final String? photo;
   final int totalPosts;
   final int totalCollections;
   final int totalFollowers;
@@ -41,6 +43,18 @@ class UserProfile {
     totalCollections: totalCollections ?? this.totalCollections,
     totalFollowers: totalFollowers ?? this.totalFollowers,
     totalFollowings: totalFollowings ?? this.totalFollowings,
+  );
+
+  Profile toDomain() => Profile(
+    id: id,
+    username: username,
+    totalPosts: totalPosts,
+    photo: photo,
+    bio: bio,
+    totalCollections: totalCollections,
+    totalFollowers: totalFollowers,
+    totalFollowings: totalFollowings,
+    isFollowing: false,
   );
 
   // Untuk convert dari Map (JSON) ke Object

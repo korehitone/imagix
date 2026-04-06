@@ -16,6 +16,7 @@ class DeleteAccountUseCase {
 
     return switch (result) {
       Success(data: final d) => () async {
+        await _repository.clearLocalUser();
         await _repository.logout();
         return Success(d);
       }(),

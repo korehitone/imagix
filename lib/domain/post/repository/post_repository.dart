@@ -3,7 +3,26 @@ import 'package:imagix/domain/post/model/post.dart';
 import 'package:imagix/domain/post/model/post_request.dart';
 
 abstract class PostRepository {
-  Future<ResultState<List<Post>>> getPosts();
+  Future<ResultState<List<Post>>> getPosts({
+    required int offset,
+    required int limit,
+  });
+  Future<ResultState<Post>> getPost(String postId);
+  Future<ResultState<List<Post>>> getLikedPosts(
+    String userId, {
+    required int offset,
+    required int limit,
+  });
+  Future<ResultState<List<Post>>> getPostsByQuery(
+    String query, {
+    required int offset,
+    required int limit,
+  });
+  Future<ResultState<List<Post>>> getUserPosts(
+    String userId, {
+    required int offset,
+    required int limit,
+  });
 
   Future<ResultState<Post>> create(String userId, PostRequest request);
 

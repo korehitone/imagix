@@ -3,8 +3,10 @@ import 'package:imagix/domain/collection/model/collection_item.dart';
 
 abstract class CollectionItemRepository {
   Future<ResultState<List<CollectionItem>>> getItemsByCollection(
-    String collectionId,
-  );
+    String collectionId, {
+    required int offset,
+    required int limit,
+  });
   Future<ResultState<bool>> create(String collectionId, String postId);
   Future<ResultState<bool>> delete(int itemId);
 }

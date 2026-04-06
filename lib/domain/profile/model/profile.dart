@@ -20,4 +20,27 @@ class Profile {
     required this.totalFollowings,
     required this.isFollowing,
   });
+
+  Profile copyWith({
+    String? id,
+    String? photo,
+    String? username,
+    String? bio,
+    int? totalPosts,
+    int? totalCollections,
+    int? totalFollowers,
+    int? totalFollowings,
+    bool? isFollowing,
+  }) => Profile(
+    // Kalau ada data baru pake data baru, kalau gak ada pake data lama (this)
+    id: id ?? this.id,
+    photo: photo ?? this.photo,
+    username: username ?? this.username,
+    bio: bio ?? this.bio,
+    totalPosts: totalPosts ?? this.totalPosts,
+    totalCollections: totalCollections ?? this.totalCollections,
+    totalFollowers: totalFollowers ?? this.totalFollowers,
+    totalFollowings: totalFollowings ?? this.totalFollowings,
+    isFollowing: isFollowing ?? this.isFollowing,
+  );
 }

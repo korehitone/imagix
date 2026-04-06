@@ -10,4 +10,16 @@ class Follow {
     this.photo,
     required this.isFollowing,
   });
+
+  Follow copyWith({
+    String? userId,
+    String? username,
+    String? photo,
+    bool? isFollowing,
+  }) => Follow(
+    userId: userId ?? this.userId,
+    username: username ?? this.username,
+    photo: photo ?? this.photo,
+    isFollowing: isFollowing ?? this.isFollowing,
+  );
 }

@@ -13,14 +13,17 @@ class CollectionItemRepositoryImpl implements CollectionItemRepository {
 
   @override
   Future<ResultState<List<CollectionItem>>> getItemsByCollection(
-    String collectionId,
-  ) async {
+    String collectionId, {
+    required int offset,
+    required int limit,
+  }) async {
     try {
       final response = await _client
           .from('collection_item_list_view')
           .select()
           .eq('collection_id', collectionId)
-          .order('added_at', ascending: false);
+          .order('added_at', ascending: false)
+          .range(offset, offset + limit - 1);
 
       return Success(
         response

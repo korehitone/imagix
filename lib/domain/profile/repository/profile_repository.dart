@@ -5,6 +5,11 @@ import 'package:imagix/domain/profile/model/profile_request.dart';
 import '../../common/model/user_profile.dart';
 
 abstract class ProfileRepository {
+  Future<ResultState<List<Profile>>> getProfilesByQuery(
+    String query, {
+    required int offset,
+    required int limit,
+  });
   Future<ResultState<Profile>> getProfile(String currentAuthId, String userId);
   Future<ResultState<UserProfile>> updateProfile(
     String userId,

@@ -8,5 +8,8 @@ class GetPostsUseCase {
 
   const GetPostsUseCase(this._repository);
 
-  Future<ResultState<List<Post>>> invoke() async => _repository.getPosts();
+  Future<ResultState<List<Post>>> invoke({
+    required int offset,
+    required int limit,
+  }) async => _repository.getPosts(offset: offset, limit: limit);
 }

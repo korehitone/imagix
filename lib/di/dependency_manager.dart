@@ -5,7 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../core/env/env.dart';
 import 'dependency_module.dart';
 
-class DepedencyManager {
+class DependencyManager {
   late final SharedPreferences _sharedPreferences;
 
   Future<void> init() async {

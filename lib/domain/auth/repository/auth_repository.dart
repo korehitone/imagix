@@ -1,7 +1,6 @@
 import 'package:imagix/core/network/result_state.dart';
+import 'package:imagix/domain/common/model/user_profile.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../../common/model/user_profile.dart';
 
 abstract class AuthRepository {
   Future<ResultState<UserProfile>> login(String email, String password);
@@ -14,6 +13,7 @@ abstract class AuthRepository {
   User? getCurrentUser();
   Future<ResultState<bool>> deleteAccount(String userId);
   Future<ResultState<bool>> restoreAccount(String userId);
+  Future<ResultState<bool>> resendVerificationEmail(String email);
 
   UserProfile? getLocalUser();
   Future<void> saveLocalUser(UserProfile user);

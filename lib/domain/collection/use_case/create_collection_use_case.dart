@@ -27,7 +27,7 @@ class CreateCollectionUseCase {
     return switch (result) {
       Success(data: final d) => Success(d),
       Error(error: final key) => Error(
-        key == "CREATE_FAILED" ? "Failed to create collection." : key,
+        key == "CREATE_FAILED" ? "Failed to upload collection." : key,
       ),
     };
   }

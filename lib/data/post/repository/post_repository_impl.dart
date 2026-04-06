@@ -15,12 +15,109 @@ class PostRepositoryImpl implements PostRepository {
   PostRepositoryImpl(this._client);
 
   @override
-  Future<ResultState<List<Post>>> getPosts() async {
+  Future<ResultState<List<Post>>> getPosts({
+    required int offset,
+    required int limit,
+  }) async {
     try {
       final response = await _client
           .from('post_list_view')
           .select()
-          .order('created_at', ascending: true);
+          .order('created_at', ascending: true)
+          .range(offset, offset + limit - 1);
+      return Success(
+        response
+            .decodeList(PostResponse.fromJson)
+            .map((dto) => dto.toDomain())
+            .toList(),
+      );
+    } catch (e) {
+      return Error(ExceptionHandler.handle(e));
+    }
+  }
+
+  @override
+  Future<ResultState<Post>> getPost(String postId) async {
+    try {
+      final response = await _client
+          .from('post_list_view')
+          .select()
+          .eq('id', postId)
+          .maybeSingle();
+
+      final post = response.decodeSingle(PostResponse.fromJson)?.toDomain();
+
+      if (post == null) {
+        return const Error("POST_NOT_FOUND");
+      }
+      return Success(post);
+    } catch (e) {
+      return Error(ExceptionHandler.handle(e));
+    }
+  }
+
+  @override
+  Future<ResultState<List<Post>>> getUserPosts(
+    String userId, {
+    required int offset,
+    required int limit,
+  }) async {
+    try {
+      final response = await _client
+          .from('post_list_view')
+          .select()
+          .eq('user_id', userId)
+          .order('created_at', ascending: true)
+          .range(offset, offset + limit - 1);
+      return Success(
+        response
+            .decodeList(PostResponse.fromJson)
+            .map((dto) => dto.toDomain())
+            .toList(),
+      );
+    } catch (e) {
+      return Error(ExceptionHandler.handle(e));
+    }
+  }
+
+  @override
+  Future<ResultState<List<Post>>> getLikedPosts(
+    String userId, {
+    required int offset,
+    required int limit,
+  }) async {
+    try {
+      final response = await _client
+          .from('post_list_view')
+          .select()
+          .eq('is_liked', true)
+          .order('created_at', ascending: false)
+          .range(offset, offset + limit - 1);
+
+      return Success(
+        response
+            .decodeList(PostResponse.fromJson)
+            .map((dto) => dto.toDomain())
+            .toList(),
+      );
+    } catch (e) {
+      return Error(ExceptionHandler.handle(e));
+    }
+  }
+
+  @override
+  Future<ResultState<List<Post>>> getPostsByQuery(
+    String query, {
+    required int offset,
+    required int limit,
+  }) async {
+    try {
+      final response = await _client
+          .from('post_list_view')
+          .select()
+          .or('title.ilike.%$query%,description.ilike.%$query%')
+          .order('created_at', ascending: true)
+          .range(offset, offset + limit - 1);
       return Success(
         response
             .decodeList(PostResponse.fromJson)

@@ -1,6 +1,6 @@
 import 'package:imagix/domain/profile/model/profile.dart';
 
-class ProfileViewResponse {
+class ProfileResponse {
   final String id;
   final String? photo;
   final String username;
@@ -11,7 +11,7 @@ class ProfileViewResponse {
   final int totalFollowings;
   final bool isFollowing;
 
-  ProfileViewResponse({
+  ProfileResponse({
     required this.id,
     this.photo,
     required this.username,
@@ -23,8 +23,8 @@ class ProfileViewResponse {
     required this.isFollowing,
   });
 
-  factory ProfileViewResponse.fromJson(Map<String, dynamic> json) =>
-      ProfileViewResponse(
+  factory ProfileResponse.fromJson(Map<String, dynamic> json) =>
+      ProfileResponse(
         id: json['id'] as String,
         photo: json['photo'] as String?,
         username: json['username'] as String,
