@@ -110,8 +110,16 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
         data: (data) {
           if (data.isSuccess) {
             _clearFields();
-            _showSuccessDialog();
-            // context.go(AppRoute.login);
+
+            ref
+                .read(DependencyModule.authViewModelProvider.notifier)
+                .resetSuccess();
+
+            context.showMsg(
+              "We've sent a confirmation link to your email. Please check your inbox and spam folder.",
+            );
+
+            context.go(AppRoute.login);
           }
         },
         error: (e, stack) {

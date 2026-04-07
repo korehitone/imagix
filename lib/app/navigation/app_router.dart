@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:imagix/domain/post/model/post.dart';
 import 'package:imagix/presentation/auth/screen/resend_email_page.dart';
 import 'package:imagix/presentation/auth/screen/restore_account_page.dart';
+import 'package:imagix/presentation/auth/screen/signup_success_page.dart';
 import 'package:imagix/presentation/collection/detail/collections_page.dart';
 import 'package:imagix/presentation/collection/form/create_collection_page.dart';
 import 'package:imagix/presentation/common/main_screen.dart';
@@ -34,6 +35,7 @@ class AppRoute {
   static const imageDetail = "/image-detail";
   static const restoreAccount = '/restore-account';
   static const resendEmail = '/resend-email';
+  static const signupSuccess = '/signup-success';
 
   static String profileWithId(String id) => "/profile/$id";
 }
@@ -52,7 +54,8 @@ final routerProvider = Provider<GoRouter>((ref) {
           state.matchedLocation == AppRoute.login ||
           state.matchedLocation == AppRoute.signup ||
           state.matchedLocation == AppRoute.restoreAccount ||
-          state.matchedLocation == AppRoute.resendEmail;
+          state.matchedLocation == AppRoute.resendEmail ||
+          state.matchedLocation == AppRoute.signupSuccess;
 
       if (isDeletedAccount &&
           state.matchedLocation != AppRoute.restoreAccount) {
@@ -195,6 +198,13 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoute.resendEmail,
         builder: (context, state) => const ResendEmailPage(),
+      ),
+      GoRoute(
+        path: AppRoute.signupSuccess,
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return SignUpSuccessPage(email: extra?['email'] ?? '');
+        },
       ),
     ],
   );
