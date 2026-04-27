@@ -8,8 +8,7 @@ abstract class PostRepository {
     required int limit,
   });
   Future<ResultState<Post>> getPost(String postId);
-  Future<ResultState<List<Post>>> getLikedPosts(
-    String userId, {
+  Future<ResultState<List<Post>>> getLikedPosts({
     required int offset,
     required int limit,
   });

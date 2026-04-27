@@ -1,0 +1,1068 @@
+ CHAPTER 5 l DATA MINING AND WAREHOUSE SYSTEMS
+
+ 5Data Mining
+         and Warehouse
+CHAPTER WSyhsatetmis Esthics
+
+LEARNING OUTCOMES
+
+By the end of this chapter, you should be able to:
+
+1. Define data mining and warehouse systems;
+2. Explain the concepts of Oracle used in Data Warehouse;
+3. Describe the usage of Sybase warehousing; and
+4. Explain some of the IBM methods used in warehousing.
+
+                                                                   94
+            DATA MINING AND WAREHOUSE SYSTEMS l CHAPTER 5
+
+INTRODUCTION
+
+Traditionally, enterprise data has been kept in information silos that are physically separate
+from other data repositories and serve specialised functions. Enterprise-wide reporting
+was difficult at best, requiring multiple data extracts and reformulation. All this data
+manipulation extracted a high cost in terms of accuracy and timeliness. Fortunately, the
+technology sector has anted up new data warehousing and mining tools to provide assistance.
+Visit the link below to view the new release of Oracle warehouse builder.
+
+                                Source: http://www.youtube.com/watch?v=WOo6VQ89JzM
+
+5.1 Oracle
+
+Oracle database is a comprehensive database platform for Data Warehousing and business
+intellect that combines industry-leading scalability and performance, deeply integrated
+analytics, and embedded integration and data quality, all in a single platform running
+on a reliable, low-cost grid infrastructure.
+
+Oracle database 11g offers best-of-breed         Figure 5.1: Functionality of oracle
+functionality for Data Warehouses and
+data marts, with confirmed scalability
+to 100's of terabytes and record-
+breaking performance. It also provides
+an exclusively integrated platform for
+analytics; by embedding OLAP, Data
+Mining, and statistical capabilities
+directly into the database, Oracle delivers
+all of the functionality of standalone
+analytic engines with the enterprise
+scalability, security and reliability of an
+Oracle Database. as shown in Figure 5.1.
+
+Ever since data integration is a core requirement of any Data Warehouse, Oracle Database
+11g includes Oracle Warehouse Builder, a leading ETL tool that utilises Oracle's scalable
+data transformation and heterogeneous data-access capabilities.
+
+Oracle's Data Warehouse solutions are now extended to hardware components with Oracle
+exadata. Oracle provides a unique data storage solution, exadata storage servers, for
+high-performance warehousing, and provides complete Data Warehouse configuration with
+HP Oracle database machine. In addition, Oracle optimised warehouse initiative offers
+customers choice of references configuration and optimised warehouse systems from
+multiple hardware vendors.
+
+                                             95
+ CHAPTER 5 l DATA MINING AND WAREHOUSE SYSTEMS
+
+   5.1.1 Hardware
+
+Foundation of solid Data Warehouse solution is a scalable, high-performance hardware
+infrastructure. One of the challenges for Data Warehouses were to deliver the I/O
+bandwidth necessary for large-scale queries, especially as data volumes and user
+workloads have continued to increase. Oracle exadata provides uniquely optimised
+storage solution for Data Warehousing which delivers order of- magnitude performance
+gains for large-scale Data Warehouse queries.
+There are two members of the Oracle exadata product family. The foundation of exadata
+family of products is Oracle® exadata storage server, which is used to build Data
+Warehousing solutions using customer supplied database servers and infrastructure. The
+second member of the exadata product family is the HP Oracle database machine.
+This database machine is a complete and fully integrated solution for Data Warehousing
+that includes all the components to quickly and easily deploy an enterprise Data
+Warehouse. In this chapter we are discussing about Oracle exadata storage server and
+their functionalities.
+
+   5.1.2 Oracle Exadata Storage Server
+
+It is database storage device running the exadata storage server software provided by
+Oracle. The hardware components of exadata storage server were carefully chosen to match
+needs of high performance query processing, and is based on HP ProLiant DL180 G5
+server. It comes preconfigured with: two Intel 2.66 GHz quad-core processors, 12 disks
+connected to a smart array storage controller with 512K of nonvolatile cache, 8 GB memory,
+dual port InfiniBand connectivity, management card for remote access, all the software
+preinstalled, and can be installed in a typical 19-inch rack.
+Two types of exadata storage server are offered as shown in Figure 5.2.
+
+    The first is based on 300 GB Serial Attached SCSI (SAS) drives. This version
+    provides approximately 1 TB of uncompressed user data capacity, and 1 GB/second
+    of data bandwidth per server.
+
+    The second version of the Exadata cell is based on 1 TB Serial Advanced Technology
+    Attachment (SATA) drives and provides approximately 3.3 TB of uncompressed data
+    capacity, and 750 MB/second data bandwidth. When data in the database is compressed,
+    bandwidth delivered by each cell increases 2 to 3 times.
+
+                                       Figure 5.2: Two types of exadata storage server
+
+                                                                   96
+                                                DATA MINING AND WAREHOUSE SYSTEMS l CHAPTER 5
+
+Integrate
+
+Recent day's information architecture is much more dynamic than it was just a few years
+ago. Businesses now demand more information, they want it sooner and they are delivering
+more analytics to an ever-widening set of users and applications.
+
+   5.1.3 Oracle Warehouse Builder
+
+To deal with these business requirements, Oracle database 11g includes a leading data-
+integration tool, Oracle Warehouse Builder (OWB). The core features of OWB are included
+as a no-cost database feature, and OWB additionally has four options for specific
+integration requirements as illustrated in Figure 5.3.
+
+ Base product
+ The base product is designed to allow any Oracle customer to efficiently build a data mart
+ or data warehouse, of any size or complexity. It includes an enterprise-ready multi-user
+ metadata repository, data-modeling capabilities, and wide variety of transformation and
+ extraction techniques, and the performance and scalability of an `ELT' architecture.
+
+ Enterprise ETL option
+ This option is specifically geared to increase performance and productivity, and include
+ the following features:
+
+        Advanced data load options.
+        Developer productivity through reusable components.
+        Embedded slowly changing dimension management.
+        End to end data lineage and impact analysis.
+        Support for advanced configuration management.
+
+ Data quality option
+ As a fully integrated part of the product, a very distinct advantage over all other tools
+ in the market, the data quality option provides support for data profiling, data rules
+ (in essence business rules) and information compliance features.
+
+ Connectors
+ It provides optimised access for leading operational applications. Oracle provides
+ connectors for Oracle e-Business Suite, Siebel (CRM), People soft enterprise, and
+ SAP R/3. An advantage of OWB is the breadth of functionality that it provides
+ integrated within a single tool. Data modeling, data compliance, and data quality
+ are core features that any enterprise data integration tools must possess. Any how,
+ a key architectural advantage of Oracle warehouse builder is the integration of the
+ components. Oracle warehouse builder gives all of its capabilities within a common
+ repository and user interface.
+
+             Figure 5.3: Four options for specific integration requirements of Oracle warehouse builder
+
+By providing all of these capabilities in a single tool on top of a single storage area, OWB
+resolves a long-standing challenge in data integration. Many integration solutions provide
+separate tools for these distinct capabilities. However, it is terribly inefficient to do data-
+
+                                                                   97
+ CHAPTER 5 l DATA MINING AND WAREHOUSE SYSTEMS
+
+modelling in one tool, and then ETL mapping in another tool, and then data profiling in yet
+another tool. OWB provides one metadata repository and one UI for the entire integration
+process.
+Extract-Load-Transform (ELT) architecture is used by Oracle warehouse builder rather than
+providing an external data-transformation engine, OWB executes all of its transformations
+within an Oracle database leveraging the scalability and performance of the database
+platform.
+
+   5.1.4 Key Database Integration Features
+
+Oracle database has broad set of loading, extraction and transformation capabilities. These
+features are leveraged by OWB, but can be used in any environment in which data is being
+integrated into an Oracle data warehouse. These features are listed in Figure 5.4.
+
+       Database gateways for accessing non-Oracle systems.
+
+        Loader utility for fast data loads of flat files.
+
+        SQL extensions for data transformations: MERGE statement.
+
+        Table functions: Efficient parallel user-defined transformations.
+
+        Change data capture for low-latency log-based capture from Oracle databases.
+
+                                       Figure 5.4: Features of key database integration
+
+   5.1.5 Perform
+
+Oracle provides performance optimisations for each type of data warehouse environment.
+Data warehouse workloads are often complex, with different users running vastly
+different operations, with different expectations and requirements for query performance. The
+needs for data warehouse performance are as follows:
+
+   · A broad set of performance optimisation techniques for every type of query and
+       workload.
+
+   · A sophisticated resource manager for ensuring performance even in databases with
+       complex, heterogeneous workload. Database resource manager allows end-users to be
+       grouped into `resource consumer groups' and DBA can control exactly how resources
+       are allocated to each group. For each group, the DBA can control the amount of CPU
+
+                                                                   98
+                                            DATA MINING AND WAREHOUSE SYSTEMS l CHAPTER 5
+
+   utilisation, as well as specify policies for proactive query governing and for
+   query queuing.
+
+· Unique, patented read-consistency model to make sure that data loads never impact
+   query performance. Oracle solves the challenges of concurrent access through a
+   technology called multi-version read consistency. This unique technology has been
+   the foundation of Oracle's concurrency model for over 15 years.
+
+· Multi-version read consistency guarantees that a user always sees a consistent view
+   of the data requested. If another user changes the underlying data during query
+   execution (such a trickle-feed update of a large data warehouse table), Oracle
+   maintains a version of the data as it existed at the time the query began. Data
+   returned to the query always reflects the state of the database (including all
+   committed transactions) at the point in time at which the query was submitted
+   regardless of what other updates may be occurring while the query is running. With
+   this technology, Oracle is uniquely positioned to handle near real-time data loads
+   within data warehouse environments.
+
+· Management Packs to automate the constant performance tuning of a Data Warehouse.
+   One of the most exciting new performance features in Oracle database 11g is OLAP-
+   based materialised views. Conventional performance-tuning methods for star schemas
+   within data warehouses involved the use of summary tables (or materialised views).
+   Using this approach, the performance of queries is improved by pre-computing one or
+   more summaries and storing those summaries in the data warehouse. These summaries
+   are completely transparent to the application, since database provides `query
+   rewrite' capabilities in which a query against a base set of star-schema tables is
+   rewritten to access summary data.
+
+· One challenge with materialised views is that a single star schema can have thousands
+   or even millions of possible aggregations that could be stored as summary tables. It
+   is not practical to create materialised view for every possible aggregation because
+   space utilisation and maintenance costs would be too high. However, this situation can
+   be resolved with OLAP-based materialised views.
+
+· An OLAP-based materialised view leverages the OLAP data structures, in which all
+   possible aggregations can be quickly retrieved. Thus, a star schema with an OLAP-
+   based materialised view provides performance of a star schema with thousands
+   of relational materialised views but with a single easy-to-manage OLAP cube that
+   is highly compressed and provides efficient update capabilities. This application
+   of OLAP technology to general-purpose data warehouse workloads is unique to
+   Oracle. While previous OLAP solutions were accessed via an OLAP-based API,
+   Oracle OLAP delivers performance benefits of OLAP to all data warehouse users
+   using any SQL-based tool.
+
+                                                              99
+CHAPTER 5 l DATA MINING AND WAREHOUSE SYSTEMS
+
+5.1.6 Scale
+
+Size of the biggest data warehouses is growing                          PartitioningParallelism
+exponentially. Today, more and more business                                   Compression
+processes are becoming more completely automated                       Capabilities
+and more data is collected at granular levels,                           to enable
+so these data volume increases show no signs of                         scalability
+abating. Oracle database 11g provides four key
+capabilities to enable scalability: partitioning,                        Clustering
+compression, clustering, and parallelism as        Figure 5.5: Four key capabilities of database 11g
+illustrated in Figure 5.5.
+
+5.1.7 Partitioning
+
+Oracle Partitioning is necessary for managing large databases. This enables a "divide and
+conquer" technique for managing large tables in database, especially as those tables grow.
+Although a database may have twice as much data next year as it does today, end-users are
+not going to tolerate their application running twice as slow. Even the database is not
+going to be given twice as much time to complete maintenance and batch processing, and the
+IT managers are not going to double the hardware budget for Data Warehouse.
+
+Partitioning is the feature that allows a database to scale for very large datasets while
+maintaining reliable performance, without unduly increasing administrative or hardware
+resources. Partitioning breaks up large tables up into smaller pieces, and thus allows data
+management windows and many end-user queries to be maintained at constant performance level
+even as the data grows.
+
+Oracle has been developing this partitioning technology for over 10 years, since its
+introduction in Oracle8. In Oracle database 11g, Oracle provides 9 methods for
+partitioning tables, along with the capability for DBA's to define custom partitioning
+schemes a rich set of administrative commands for partitioned tables and a partition
+adviser to guide administrators on how best to implement partitioning.
+
+Partitioning enables ILM ("Information Lifecycle Management") strategies within the
+Oracle database. When partitioning a single table, it can be distributed across multiple
+storage tiers. Old, less-frequently accessed data, corresponding to older partitions, can
+be stored on less expensive storage devices. For large databases, this approach can provide
+significant cost savings.
+
+5.1.8 Compression
+
+Since its introduction in Oracle9i database release 2, compression has grown to be one of
+
+                    100
+                                                DATA MINING AND WAREHOUSE SYSTEMS l CHAPTER 5
+
+the most popular features for data warehouse customers. As customers look to store larger
+volumes of data, compression is a natural solution. Oracle's compression algorithms provides
+a unique mechanism for compressing data stored in relational tables with virtually no
+negative impact on query performance. With typical compression ratios ranging from 2:1 to 5:1,
+the popularity of this feature comes as no surprise.
+
+In Oracle database 11g, compression has been improved to support frequent, small updates
+and inserts. In previous releases, data was compressed when inserted into a table using
+`direct-path' operations (`bulk' operations in which thousands of rows are inserted when using
+a single SQL statement or when using the load utility). For smaller updates and inserts into
+a compressed table, the new data would not be compressed in these earlier releases. This new
+enhancement in 11g brings the benefits of compression to data warehouse tables, which are
+`trickle-fed' or otherwise, updated frequently.
+
+   5.1.9 Real Application Clusters
+
+Clusters facilitate a single database to scale across multiple servers. RAC provides a
+solution to data warehousing, to `scale-out' to grow to hundreds of CPU's. The architecture
+of RAC provides unique features and benefits for Oracle data warehousing. In addition to
+the capability of adding additional raw computing power to a data warehouse system, RAC
+also enables high-availability against node failure.
+
+RAC also delivers a remarkable amount of flexibility for managing multiple workloads
+within a single database. By using `RAC services', different applications could be
+assigned to separate services, which in return can run on separate nodes of a cluster.
+For example, data mart users could be assigned to one set of nodes while ETL operations
+could be assigned to another set of nodes. Main advantage of RAC is the ability to
+dynamically change and adjust these workloads. One could dynamically allocate more nodes
+to ETL processing at night time, for example, while reallocating those nodes to query
+processing during the day.
+
+Parallelism
+
+Parallelism is facility to leverage multiple processors towards execution of a single
+database operation. Oracle's scalable parallel execution architecture dynamically adjusts
+to meet all user demands. For large operations, Oracle parallelises database operations
+across all available nodes and CPU's. For smaller operations, Oracle dynamically adjusts
+the parallelism to maximise overall system throughput while the database resource manager
+ensure that high-priority operations continue to get appropriate resources.
+
+Analyse
+
+Technologies such as OLAP, data mining and statistics, are hardly new to data warehousing
+and business intelligence. However, OLAP products typically have their own calculation
+
+                                                                  101
+ CHAPTER 5 l DATA MINING AND WAREHOUSE SYSTEMS
+
+engine, statistics products have their own data engine, and data mining products have
+their own mining engines. In short, an enterprise-wide business intelligence environment
+would maintain at least four different types of `data engines', each requiring their own
+servers, their own management infrastructure, their own security administration, their own
+high-availability infrastructure as shown in Figure 5.6.
+
+          Figure 5.6: Different types of data engines of enterprise-wide business intelligence environment
+
+Each engine has its own API's and its own set of developer tools and end-user tools. The
+cost and complexity of replicating entire stacks of BI technologies is significant.
+Oracle database provides a completely different approach by integrating OLAP, data mining,
+and statistics inside the database engine. Instead of moving data from a Data Warehouse to
+other analytic engines for further analysis, Oracle has instead brought advance analytic
+algorithms into its database, where data resides.
+Moreover, Oracle provides SQL access to all of its analytics, so that they can be implemented
+with any SQL-based tool or application environment. Beyond considerable advantages of
+rationalising back-end data architecture of an enterprise business intelligence environment,
+the integration of analytics within the Oracle database provides a host of advantages
+unavailable to standalone environments.
+For example, does your stand alone OLAP server scale to hundreds of CPU's or clusters
+of servers? How easily does your data-mining engine integrate into your user authentication
+server? And can it transparently implement all of your data security policies? How easily
+can you integrate the results of your statistical analysis with your Data Warehouse data?
+All of these issues are solved Within Oracle database, simply due to the deep integration
+of OLAP, data mining and statistics.
+
+  5.1.10 Data Mining
+Oracle data mining is powerful software entrenched in the Oracle database that enables
+
+                                                                  102
+                DATA MINING AND WAREHOUSE SYSTEMS l CHAPTER 5
+
+you to discover new insights hidden in your data. This method helps businesses to target
+their best customers, find and prevent fraud, discover the most influential attributes
+that affect Key Performance Indicators (KPIs), and find valuable new information hidden
+in the data. Oracle data Mining helps technical professionals find patterns in their
+data, discover new clusters and associations, identify key attributes, and uncover valuable
+insights.
+
+To address these business problems, Oracle data mining allows companies to find new
+
+information from their data using a wide range of state-of-the-art algorithms. Algorithms
+
+used by data mining methods are machine-
+
+learning techniques for analysing data to               Data mining
+discover patterns and relationships. Oracle              algorithms
+provides multiple algorithms since different
+
+algorithms are effective for different types
+
+of analysis and different business problems.
+
+Majority data mining algorithms can be broadly          Supervised  Unsupervised
+separated into "Supervised Learning" and                  learning      learning
+"Unsupervised Learning" data mining
+techniques as shown in Figure 5.7.                      Figure 5.7: Classification of data mining algorithms
+
+Naive Bayes     Decision Tree                           Supervised learning requires data analyst
+                                                        to identify a target attribute or dependent
+Supervised                                              variable (for example, customers who
+  learning                                              bought a specific product). Supervised-
+                                                        learning technique then sifts through data
+algorithms                                              trying to find patterns and relationships
+                                                        between other attributes and the target
+Support Vector  General Linear                          attribute (for example, the characteristics
+    Machines         Models                             that indicate whether a prospective
+                                                        customer is likely to buy a specific
+Figure 5.8: Features of supervised learning algorithms  product). Supervised learning algorithms
+                                                        with Oracle Data Mining include Naive Bayes,
+                                                        Decision Tree, General Linear Models, and
+                                                        Support Vector Machines as shown in
+                                                        Figure 5.8.
+
+Other category of data-mining algorithms is for "unsupervised learning." In these
+scenarios, there is no `target attribute' instead the data mining algorithms seek
+to find associations and clusters in the data independent of any a priorly defined
+business objective. These algorithms include Enhanced k-means clustering, Orthogonal
+partitioning clustering, Association rules (market basket analysis), and Nonnegative
+matrix factorisation as shown in Figure 5.9.
+
+                                              103
+CHAPTER 5 l DATA MINING AND WAREHOUSE SYSTEMS
+
+Enhanced k-means   Unsupervised                     Orthogonal partitioning
+       clustering      learning                               clustering
+
+Enhanced k-means     algorithms                       Non-negative matrix
+       clustering                                           factorisation
+
+                                 Figure 5.9: Features of unsupervised learning algorithms
+
+Oracle data mining includes Oracle data miner, a graphical user interface for data analysts
+to build, evaluate, and apply data mining models. Oracle data miner guides the data analyst
+through the data mining process with complete flexibility and presents results in graphical
+and tabular formats. Oracle data miner can generate the PL/SQL code associated with a mining
+activity.
+
+   SELF-CHECK
+
+                Define Oracle data warehouse and also point out the unique features and
+                methods used by Oracle data warehouse.
+
+5.2 Sybase
+
+Sybase became the number two database system behind Oracle, after making a deal with
+Microsoft to share the source code for Microsoft to remarket on the OS/2 platform as
+"SQL Server". At the time, Sybase called the database server "Sybase SQL Server". Until
+version 4.9, Sybase and Microsoft SQL server were virtually identical.
+
+The big difference is that Sybase has a Unix heritage, while Microsoft was adapted and
+
+optimised only for the Microsoft Windows NT
+
+operating system. Sybase continues to offer
+
+versions for Windows, several varieties of                  IQ  buiPldoewrer
+Unix, and for Linux.                                Sybase
+
+Sybase makes a number of other data management      Other data
+products including Sybase IQ, a Data Warehouse
+                                                    Management
+
+system, Power builder, a client-server and n-tier   sReerpvleicrationproductsm-Busseinrveesrs
+application development system, m-Business
+Server, a mobile applications system based on
+the AvantGo service, and Replication Server, a
+
+vendor-neutral data movement system. This is
+
+illustrated in Figure 5.10. Sybase has a strong
+
+presence in the health care and financial markets.  Figure 5.10: Other data management products
+                                                                          of Sybase
+
+                   104
+                                                DATA MINING AND WAREHOUSE SYSTEMS l CHAPTER 5
+
+   5.2.1 Sybase Warehousing
+
+Sybase illustrates data warehousing as the process of integrating information from a variety
+of sources, at regular intervals, to construct an integrated view of the business, combined
+with query-optimised technologies for interactive analysis.
+
+Sybase has a complete range of products as part of its data warehouse offering such as:
+
+ Database servers mainly optimised for the special query requirements of
+ the interactive warehouse: Sybase SQL Server for mixed-mode data
+ warehouses (databases that are updated and queried at the same time),
+ Sybase MPP for huge systems with terabytes of data and thousands of users,
+ SQL Anywhere Professional for mobile and personal data marts, and Sybase
+ IQ for decision support and complex data analysis.
+
+ Middleware for access to multiple data sources on varied systems: With the
+ Enterprise Connect family of products, you can access more than 25 data
+ sources, including DB2, IDMS, IMS, VSAM, Oracle, Informix, and AS/400.
+
+ Integration and management of data movement and delivery within the
+ enterprise warehouse environment: InfoPump, Sybase's low-end data movement
+ option, performs summaries and aggregations to data before delivery to the
+ warehouse. This is highly useful for smaller data warehouses and data marts. Sybase's
+ Replication Server is suitable for a large enterprise's interactive warehouse. It
+ provides high-performance, automated, high-volume data distribution and management
+ within highly heterogeneous and dynamic interactive warehouse environments.
+
+ Development tools: PowerBuilder, Power++ (formerly Optima++), InfoMaker, Power J,
+ and S-Designer, which was recently renamed PowerDesigner. InfoMaker is an end-user
+ query and reporting tool designed for individual access to warehouse data for
+ reporting. PowerDesigner V6 has been enhanced to include Warehouse Architect. It
+ has a warehouse model design capacity and direct interface into Sybase IQ.
+
+Mechanism of this architecture is integrated to support Sybase's so-called "Interactive
+warehouse" strategy. The architecture contains of processes, products, and data from
+Sybase and other databases. These are incorporated into an end-to-end framework to collect
+data from numerous sources (legacy and mainframe databases, applications, and external
+data sources). They also apply conversion and transformations logic to present the data
+in useful business terms. This architecture includes tools to automate and manage the
+distribution of the data to the Data Warehouses and data marts, and tools to store the data
+in preparation for end users accessing the data from any of the standard query reporting
+tools and applications.
+
+                                                                  105
+CHAPTER 5 l DATA MINING AND WAREHOUSE SYSTEMS
+
+5.2.2 Sybase IQ
+
+From view of Data Warehousing, Sybase IQ (Interactive Query Accelerator) is the central
+component. Sybase IQ is a DBMS server that is specifically designed for decision-support
+databases and complex data analysis queries.
+
+Sybase IQ was specially designed for interactive Data Warehousing. Architected around
+Sybase's patented Bit-Wise query-processing technology, it uses highly developed
+performance-optimised algorithms for complex ad hoc queries. This technology provides
+five to 500 times faster ad hoc query performance than traditional Relational Database
+Management Systems (RDBMSs), even with changing user queries. Sybase claims that
+Sybase IQ requires much less resource-intensive tuning to obtain excellent performance
+than a traditional RDBMS requires.
+
+Sybase IQ is compact in the Sybase Open Architecture. Sybase IQ method supports a
+collection of heterogeneous data sources (including accessing data directly from
+Sybase SQL Server or, through a gateway, from any of more than 20 supported data
+sources such as Oracle, DB2, Informix, and flat files). It can be accessed from a
+broad range of popular, off-the-shelf query tools (such as Business Objects and
+Cognos Impromptu).
+
+This method also supports a standard relational                   Processes
+framework. It processes regular SQL commands                     regular SQL
+and supports Sybase's Open Client interfaces,                    commands
+DB-Library, Client-Library, and ODBC client
+calls as shown in Figure 5.11.                        ODBC                     Supports
+                                                   client calls                Sybase's
+Its integrated catalog can serve both Sybase                                  open client
+IQ and Sybase SQL Server, allowing DBAs to                       Sybase IQ    interfaces
+manage security and other administrative services
+consistently throughout the Sybase environment.    Client-Library  DB-Library
+It uses the typical SQL Server data definition
+language, with extensions for the Sybase IQ
+access methods.
+
+This architecture can also be used to allow        Figure 5.11: Application of Sybase IQ
+transactions and queries designed for execution
+
+by an operational data store to be passed
+
+through and executed transparently by an attached database. This allows building
+
+high-performance environments that support both interactive analysis and realtime
+
+updates.
+
+                 106
+                                                DATA MINING AND WAREHOUSE SYSTEMS l CHAPTER 5
+
+   5.2.3 Features
+
+Sybase IQ incorporates numerous innovative features, including advanced indexing and
+access methods, pre-optimised and ad hoc join strategies, data reduction, and partitioning
+techniques.
+
+   5.2.4 Bit-Wise Indexing
+
+Sybase IQ stores data in an extremely different manner from conventional RDBMS's. A copy
+of the data is stored in a column-oriented format (as an alternative of a row-oriented
+format, as in a conventional RDBMS).
+
+        Real values of data are indexed in arrays of bits for each column, called Bit-Wise
+        indexes.
+
+        The index either contains different values if there are a few (up to 1,000)
+        or it contains slices of values for larger numbers of distinct values.
+
+In both these cases, structures can be manipulated through simple binary operations.
+These Bit-Wise indexes can be applied to all data, for data elements with large numbers
+of repeating values, as well as for data elements with large numbers of distinct values.
+They can group and aggregate data quickly; they also count, identify, and present detailed
+level records back to the user.
+
+Sybase IQ's Bit-Wise indexing resolves queries by professionally combining and
+manipulating only relevant data, without scanning large amounts of raw data; often it
+does not access any raw data at all. Because Sybase IQ's Bit-Wise indexing accesses
+only the smallest amount of data needed to resolve each query, Sybase IQ can rapidly
+process almost any query, whether preplanned or ad hoc. Accessing the data stored in a
+column-oriented format eliminates accessing and processing irrelevant data. Because most
+Decision-Support System (DSS) queries access a relatively lower number of columns across
+a large number of rows, this technique eliminates a great deal of unnecessary I/O. In a
+worst scenario, Sybase IQ would scan an entire column rather than do a full table scans.
+
+The Bit-Wise indexing method reduces index data structures to as little as 20 percent of
+the size required for equivalent B-tree index used by a traditional RDBMS. Data reduction
+and compression method enables the entire database to be fully indexed on each column and
+made available for ad hoc query in less space than it normally takes to store raw data
+alone. It does not require the ongoing maintenance tasks, as most other relational indexing
+techniques do.
+
+It helps to add new data values to data structures without the need to rebuild or reorganise
+
+                                                                  107
+CHAPTER 5 l DATA MINING AND WAREHOUSE SYSTEMS
+
+these structures. This makes quick access to current information. With Bit-Wise indexing
+methodology, Sybase IQ can resolve queries without tuning. The Bit-Wise methodology
+can handle ad hoc queries with little optimisation. Sybase IQ resolves queries using only
+information that is directly relevant to each query. Administrators do not need to define
+all of the specific queries and operations in advance in order to provide high performance.
+The access methods are data-dependent, not query-dependent, so data warehouse users can
+pretence an unlimited number of complex ad hoc queries without need query or any specific
+tuning by the DBA.
+
+Compression
+
+Data columns are easier to compress than rows (rows contain mixed data types and columns
+
+of varying widths) Sybase IQ can store raw data on disk in as little as 40 to 50 percent
+
+of the size of the original raw data. This will
+
+reduce the I/O required to read that same                        High-cardinality
+data back from disk at query time.                                     B-trees
+
+Database Access Methods                          Bit-Wise indexes           Database           Lobiwt-cmaarpdisnality
+                                                                              access
+Sybase IQ builds efficient and compact
+secondary structures on each column as                                      methods
+the data is being loaded. This method of
+structures further speeds up access to,                          Figure 5.12: Features included
+and filtering of, information in the column.                       in database access methods
+These structures include variations on high-
+cardinality B-trees, low-cardinality bitmaps,
+and the Bit-Wise indexes described previously.
+This is illustrated in Figure 5.12.
+
+These data structures are optimised for the query operations and data characteristics that
+are typical of decision-support applications.
+
+The query optimiser automatically picks the best obtainable access methods and algorithms
+for executing each individual query. By wisely combining all of the capabilities described
+earlier, Sybase IQ performs efficiently and consistently across the vast array of complex
+queries typical of decision-support analysis, without manual intervention.
+
+Data Loading
+
+Sybase IQ 11.1 will load data from a large array of data sources, including several BCP
+(Bulk Copy Program) formats, fixed-column width EBCDIC, ASCII or binary data, variable-
+column width EBCDIC, or ASCII data using delimiters.
+
+The fixed-format binary data can be loaded from a various type of machines and can be
+converted automatically to the alignment of the target database (for example, Big Endian
+
+              108
+                                                DATA MINING AND WAREHOUSE SYSTEMS l CHAPTER 5
+
+format data from Sun, HP, IBM, or most other RISC systems can be loaded into Little
+Endian format databases such as Intel or DEC, or vice versa).
+Prejoin Indexes
+Sybase IQ gives an advantage of the known join relationships between the tables by
+allowing you to define the join indexes between them in advance. These join indexes decrease
+the processing required to process join queries at run time. The join indexes are
+supplemented by various join algorithms, such as the sort-merge and nested loop techniques.
+Relational and Multidimensional Data
+Data Sybase IQ can contain relational data models or multidimensional data models, without
+the need to preaggregate the detailed data. It can execute data summary functions
+dynamically, therefore allowing you to use standard query tools to drill down to the detailed
+data.
+Smaller Memory Footprint
+In Sybase IQ 11.1, the sum of memory required for each user has been reduced. This
+increases the concurrent users who can access the interactive data warehouse. This
+memory saving can be endorsed to several factors as depicted in Figure 5.13.
+
+  Reduced per-thread memory:
+    Sybase IQ uses native operating system kernel threads to offer opportunistic
+    parallelism, which allows it to take advantage of parallel processing to speed
+    up compute-intensive tasks. When doing so it does not have any adverse impact
+    on other users and a savings of between 5 MB and 10 MB per user have been
+    achieved over previous releases.
+
+  Reduced sort-merge memory:
+    This method is used by many operations in complex query processing. Sybase IQ
+    11.1 uses a new sort-merge technique that considerably reduces the memory
+    utilisation of each sorting task.
+
+  Sybase workspace:
+
+     Sybase IQ 11.2 provides all users a single workspace to share so that extensive
+     queries can draw from a pool of memory at run time. This relieves the Data Base
+     Administrator (DBA) from calculating and allocating memory per user in advance.
+
+                                    Figure 5.13: Factors of memory saving in Sybase IQ
+
+                                                                  109
+ CHAPTER 5 l DATA MINING AND WAREHOUSE SYSTEMS
+
+   5.2.5 Performance Enhancements
+
+Sybase IQ 11.1 and 11.2 have five main areas of recital improvement over previous releases
+as listed in Figure 5.14.
+
+   Group by: High-performance combination is essential for many queries found in
+   DSSs. Sybase IQ 11.1 uses new algorithms -- based on the number of groups, number
+   of different elements, and other factors -- to choose among its execution strategies.
+   This results in better performance on a wide range of grouping queries.
+
+   IN list: OLAP tools make wide use of the IN (...) SQL construct, frequently with a
+   very large number of entries in the list. Sybase IQ 11.1 has taken a new approach
+   to this problem by combining column-oriented processing with hashing techniques to
+   get better performance of IN lists containing thousands of values.
+
+   Subquery: Queries or Subqueries containing other queries often cause performance
+   problems in some relational databases. Sybase IQ 11.1 introduced numerous new
+   approaches to subquery execution that draw strongly on its column-oriented processing
+   and its ability to use the cache to emphasise reuse of the consistent portions of
+   each query expression.
+
+   Improved costing model: Sybase IQ 11.1 has extensively improved the costing
+   portion of the query optimiser. These changes offer the optimiser with better
+   information on how to choose an optimal execution plan for each query. Choosing
+   the finest execution plan is critical to the performance of ad hoc join queries.
+
+   New join algorithm: One of the popular data models for data warehouse today is
+   called star schema. A star schema consists of a central table (called the fact
+   table) bounded by a series of smaller tables (called dimension tables). In a
+   star schema, there are millions of fact records that contain only a few numeric
+   columns and a relatively small number of dimension table records that provide
+   meaning to the facts. Some relational join algorithms do a poor performance of
+   joining the relatively small dimension tables with very large fact table, causing
+   very slow query performance. Sybase IQ 11.1 has a new hash join algorithm that
+   provides important improvement in join queries over the traditional relational
+   join methods when used on star schema queries.
+
+                    Figure 5.14: Five main areas of recital improvement of Sybase IQ 11.1 and 11.2
+
+   5.2.6 Using Sybase IQ
+
+Sybase IQ has a single install utility which sets up and starts up Sybase IQ and the
+Sybase server components that must be installed. If a database is already available, you
+can run a template command to generate the scripts required to create Sybase IQ indexes.
+(The warehouse indexes and warehouse index space can also be created directly from
+PowerDesigner's Warehouse Architect.)
+
+                                                                  110
+                                                DATA MINING AND WAREHOUSE SYSTEMS l CHAPTER 5
+
+Once the index space has been created, data can be loaded through the IQ_LOAD
+utility, which simultaneously indexes the data that is loaded from flat files, from Sybase
+SQL Server databases, or from other relational databases, through SQL select statements.
+Server administration presently is performed through a command-line interface, but
+Platinum Technology Inc. (Oakbrook Terrace, Ill.) has developed a Sybase IQ Desktop
+DBA module.
+Once the data is loaded, users can query any aspects through query and reporting tools,
+including Microsoft Access (Microsoft Inc., Redmond, Wash.), Impromptu (Cognos Inc.,
+Ottawa, Ontario, Canada), BusinessObjects (Business Objects Inc., Cupertino, Calif.),
+Forest & Trees (Platinum Technology Inc., Oakbrook Terrace, Ill.), and SAS Assist (SAS
+Institute Inc., Cary, N.C.). Access through db-Lib and Sybase's CT-Lib is also supported,
+along with ODBC.
+After all data are loaded and set up, there is only very little administration and tuning to
+be done. This is because warehouse is pretended according to nature of the data and not
+according to the nature of the queries. The system does not have to be retuned as the nature
+of the queries evolves over time.
+
+   SELF-CHECK
+
+                Find out the unique features of Sybase warehouse system.
+
+    5.3 IBM
+
+Data mining technologies from IBM is used to detect fraud, prevent customer churn,
+segment your customers, and simplify market basket analysis. The in-database data mining
+capabilities incorporate with existing systems to provide scalable, high performing
+predictive and pattern analysis without moving your data into proprietary data mining
+platforms.
+
+   5.3.1 Unique features of InfoSphere Warehouse Data Mining
+
+Unique features of InfoSphere warehouse data mining are listed in Figure 5.15.
+
+      Highly scalable, state-of-the-art data mining algorithms
+
+     A Profit from IBM's state-of-the art technology, providing you with reliable,
+
+             innovative algorithms for data analysis.
+
+                                                                  111
+ CHAPTER 5 l DATA MINING AND WAREHOUSE SYSTEMS
+
+      Efficient and secure in-database processing
+
+     B Process your data directly in the database, without taking the effort and
+
+               potential security risks of copying it to an external system.
+
+      Easy to use even without in-depth data mining knowledge
+               Apply data mining in a simple and intuitive way without complex setups or
+
+     C parameterisation using the easy mining interfaces and the interactive flow
+
+               creation of the design studio.
+
+      Easy integration with other components
+               Integrate your solutions with different front-ends, infrastructures, other
+
+     D databases and reporting tools (such as Cognos) through the powerful IBM
+
+               data mining SQL API.
+
+      Supports relevant standards
+
+     E Store, share and apply models across different applications using the Predictive
+
+               Model Markup Language (PMML).
+
+                           Figure 5.15: Unique features of InfoSphere warehouse data mining
+
+   5.3.2 Modelling
+
+Data mining process starts with chronological data being gathered and put through a
+series of mathematical functions to derive business rules such as "Customers buying
+Gouda cheese are likely to also buy mixed nuts 58% of the time." Business rules are
+collected together into a data mining model. Data mining models are represented using
+the Predictive Model Markup Language (PMML), which is used to exchange mining models
+with other data mining tools like SAS or SPSS. Design studio gives a convenient
+graphical environment for data modelling.
+
+   5.3.3 Visualisation
+
+Visualisation of data mining models is a key functionality to evaluate the mining results.
+The powerful data mining visualisation capabilities within InfoSphere warehouse enable to
+get fast insight into the discovered business rules.
+
+   5.3.4 Scoring
+
+The confirmed business rules can be applied to new data to determine the appropriate
+predicted outcome. For example, a bank transaction enters the system and the fraud
+
+                                                                  112
+                  DATA MINING AND WAREHOUSE SYSTEMS l CHAPTER 5
+
+detection rules are applied against the data. The rules will forecast probability that
+the record is fraudulent. This course of applying the business rules is called scoring.
+Scoring in real time allows businesses to find fraudulent records faster, segment new
+customers and offer them better service, and detect defects quicker. InfoSphere Warehouse
+Data Mining performs Scoring in a straight line in the database. This makes sure a
+maximum of efficiency and security and allows you to embed Data Mining directly into
+your business processes.
+
+SELF-CHECK        Define the features of InfoSphere warehouse system.
+                  Try to find out other warehouse systems used by IBM.
+              1.
+              2.
+
+SUMMARY
+
+1. This module explains about different data mining and warehouse systems used by
+     current industry.
+
+2. In this chapter, you have learnt Oracle data warehouse system and their
+     functionalities. Additionally you have understood the different servers used by
+     Oracle and also compression, and application clusters techniques used by the
+     Oracle server.
+
+3. In addition, this module pointed out the importance of Sybase warehouse systems and
+     their features.
+
+4. Finally, you have learnt about the, IBM warehouse systems and also this chapter
+     explains what are data mining techniques use by IBM systems and also illustrate the
+     features of InfoSphere warehouse data mining.
+
+glossary
+
+Key Performance   - Key Performance Indicators (KPI) are financial and
+Indicators (KPI)         non-financial measures or metrics used to help an
+                         organisation define and evaluate how successful it
+                         is, typically in terms of making progress towards
+                         its long-term organisational goals. The KPIs differ
+                         depending on the nature of the organisation and the
+                         organisation's strategy.
+
+                  113
+CHAPTER 5 l DATA MINING AND WAREHOUSE SYSTEMS
+
+Oracle Database   - The Oracle database (commonly referred to as Oracle
+                         RDBMS or simply Oracle) consists of a Relational
+Predictive Model         Database Management System (RDBMS) produced and
+Markup Language          marketed by Oracle corporation.
+(PMML)
+                  - The Predictive Model Markup Language (PMML) is an
+RDBMS                    XML-based markup language developed by the Data
+Sybase IQ                Mining Group (DMG) to provide a way for applications
+                         to define statistical and data mining models and to
+                         share models between PMML-compliant applications.
+
+                  - Searching, selecting, and retrieving of actual data from a
+                         personnel file, data bank, or other file.
+
+                  - Sybase IQ, formally Sybase Adaptive Server IQ, is a
+                         relational database software system used for data
+                         warehousing, produced by the Sybase corporation.
+                         Sybase IQ now powers the world's largest Data
+                         Warehouse implemented in history, consisting of over
+                         one petabyte (1,000 terabytes) of structured and
+                         unstructured data, designed and implemented by
+                         BMMSoft.
+
+reference
+
+     Books
+
+     Gupta, H., Harinarayan, V., Rajaraman, A., & Ullman, J. Index Selection for OLAP:
+     In Proceedings of the International.
+
+     John Wang. (2009). Encyclopedia of Data Warehousing and Mining (2nd ed.).
+     Information science Reference publishers.
+
+     Yannis Kotidis. (2002). Handbook of Massive Data Sets. chap. Aggregate View
+     Management in Data Warehouses. Kluwer publications.
+
+     Surajit Chaudhuri, & Umesh Dayal. (1997). An overview of Data Warehousing and
+     OLAP Technology.
+
+     Robert Stackowiak, Joseph Rayman, & Rick Greenwald. Oracle Data Warehousing and
+     Business Intelligence Solutions. Wiley Publishing, Inc.
+
+                  114
+                                               DATA MINING AND WAREHOUSE SYSTEMS l CHAPTER 5
+
+multiple choice questions
+
+1. __________ uses OLAP functionality for analytical process of database.
+       A. SYBASE
+       B. IBM
+       C. ORACLE
+       D. None of the above
+
+2. HP Oracle database machine is used by ___________ as a high performed data storage
+       solution.
+       A. Oracle
+       B. HP
+       C. IBM
+       D. Cisco
+
+3. Oracle (Database 11g) warehouse builder consists of __________ and _________
+       options.
+       A. base product, ETL option and connectors
+       B. ETL option and connectors
+       C. ETL option and base product
+       D. B and C
+
+4. Partitioning table enables ___________ strategies within the Oracle database.
+       A. ILM (Information Library Management)
+       B. ILM (Information Life product Management)
+       C. ILM (Information Lifecycle Material)
+       D. ILM (Information Lifecycle Management)
+
+5. In Oracle warehouse facilitate a single database to scale across multiple servers feature
+       is provides by __________.
+       A. real application clusters
+       B. real application servers
+       C. OLAP
+       D. none of the above
+
+6. Own calculation engine, statistics products and also own data engine is contain by
+       __________ technology in Oracle.
+       A. OLPA
+       B. MOLAP
+       C. OLAP
+       D. All of the above
+
+7. KPI is also known as ______________.
+
+                                                                 115
+CHAPTER 5 l DATA MINING AND WAREHOUSE SYSTEMS
+
+       A. Key Performance Information
+       B. Key Performance Indicators
+       C. Key Product Indicators
+       D. Key Product Information
+
+8. Bit-Wise query-processing technology is used by ________.
+       A. DBMS
+       B. Oracle
+       C. Sybase IQ
+       D. IBM
+
+9. ____________ data mining technologies is used to detect fraud.
+       A. IBM
+       B. Oracle
+       C. Sybase IQ
+       D. B & C
+
+10. IBM uses __________ application to store, share and apply.
+       A. Predictive Markup Language (PML)
+       B. Predictive Model Markup Language (PMML)
+       C. A and B
+       D. None of the above
+
+multiple choice questions
+
+1. Oracle database 11v offers best-of-breed functionality for data warehouses and data
+       mine, with confirmed scalability to 100's of terabytes and record-breaking performance.
+       A. TRUE
+       B. FALSE
+
+2. HP Oracle database machine provides high-performance warehousing, and extensive
+       hardware support for warehouse system.
+       A. TRUE
+       B. FALSE
+
+3. Oracle exadata storage server is used to build data warehousing solutions using cus-
+       tomer supplied database servers and infrastructure.
+       A. TRUE
+       B. FALSE
+
+4. Oracle Warehouse Builder (OWB) have feature of application connectors for Oracle
+       e-Business Suite.
+
+                                                                 116
+                                              DATA MINING AND WAREHOUSE SYSTEMS l CHAPTER 5
+
+       A. TRUE
+       B. FALSE
+5. Oracle database has a broad set of loading, security and compression capabilities as a
+       key feature.
+       A. TRUE
+       B. FALSE
+6. "Divide and Conquer" technique for managing large tables in database method is used
+       by Oracle partitioning.
+       A. TRUE
+       B. FALSE
+7. Oracle data management system is powerful software which helps to discover new in-
+       sights hidden in data.
+       A. TRUE
+       B. FALSE
+8. DB2, IDMS are enterprise connectivity products which are mainly used by Sybase
+       warehousing.
+       A. TRUE
+       B. FALSE
+9. InfoSphere warehouse data mining technologies are used by IBM corporation.
+       A. TRUE
+       B. FALSE
+10. Visualisation of data mining models is the key functionality to evaluate mining results
+       is used by IBM InfoBase warehousing system.
+       A. TRUE
+       B. FALSE
+
+                                                                117
+

@@ -5,19 +5,6 @@ import 'package:imagix/presentation/widgets/app_error_widget.dart';
 
 import '../../core/theme/app_colors.dart';
 
-class _CollectionData {
-  final String name;
-
-  const _CollectionData({required this.name});
-}
-
-const List<_CollectionData> _dummyCollections = [
-  _CollectionData(name: 'Favorites'),
-  _CollectionData(name: 'Inspiration'),
-  _CollectionData(name: 'Art'),
-  _CollectionData(name: 'Photography'),
-];
-
 class AppCollectionPickerSheet {
   static void show(BuildContext context, String postId) {
     showModalBottomSheet(
@@ -81,64 +68,73 @@ class AppCollectionPickerSheet {
 
                     // Collections List
                     Expanded(
-                      child: data != null
-                          ? (data.collections.isEmpty
-                                ? const Center(
-                                    child: Text("No collections yet"),
-                                  )
-                                : ListView.builder(
-                                    controller: scrollController,
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 8,
+                      child: data == null
+                          ? const Center(child: CircularProgressIndicator())
+                          : data.isFetchingCollections
+                          ? const Center(child: CircularProgressIndicator())
+                          : data.errorMessage != null &&
+                                data.collections.isEmpty
+                          ? AppErrorWidget(
+                              errorMessage: data.errorMessage!,
+                              onRetry: () {
+                                ref
+                                    .read(
+                                      DependencyModule.imageDetailViewModelProvider(
+                                        postId,
+                                      ).notifier,
+                                    )
+                                    .fetchUserCollection(postId);
+                              },
+                            )
+                          : data.collections.isEmpty
+                          ? const Center(child: Text("No collections yet"))
+                          : ListView.builder(
+                              controller: scrollController,
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              itemCount: data.collections.length,
+                              itemBuilder: (context, index) {
+                                final collection = data.collections[index];
+                                final bool alreadySaved = collection.isSaved;
+
+                                return ListTile(
+                                  enabled: !alreadySaved,
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 4,
+                                  ),
+                                  leading: Container(
+                                    width: 48,
+                                    height: 48,
+                                    decoration: BoxDecoration(
+                                      color: alreadySaved
+                                          ? Colors.grey[200]
+                                          : AppColors.secondary.withValues(
+                                              alpha: 0.2,
+                                            ),
+                                      borderRadius: BorderRadius.circular(8),
                                     ),
-                                    itemCount: data.collections.length,
-                                    itemBuilder: (context, index) {
-                                      final collection =
-                                          data.collections[index];
-                                      final bool alreadySaved =
-                                          collection.isSaved;
-                                      return ListTile(
-                                        enabled: !alreadySaved,
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                              horizontal: 16,
-                                              vertical: 4,
-                                            ),
-                                        leading: Container(
-                                          // Bagian Icon di kiri
-                                          width: 48,
-                                          height: 48,
-                                          decoration: BoxDecoration(
-                                            color: alreadySaved
-                                                ? Colors.grey[200]
-                                                : AppColors.secondary
-                                                      .withValues(alpha: 0.2),
-                                            borderRadius: BorderRadius.circular(
-                                              8,
-                                            ),
-                                          ),
-                                          child: Icon(
-                                            Icons.collections_outlined,
-                                            color: alreadySaved
-                                                ? Colors.grey
-                                                : AppColors.primary,
-                                          ),
-                                        ),
-                                        title: Text(
-                                          collection.title,
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        trailing: alreadySaved
-                                            ? const Text(
-                                                "Saved",
-                                                style: TextStyle(
-                                                  color: Colors.green,
-                                                ),
-                                              )
-                                            : const Icon(Icons.chevron_right),
-                                        onTap: () {
+                                    child: Icon(
+                                      Icons.collections_outlined,
+                                      color: alreadySaved
+                                          ? Colors.grey
+                                          : AppColors.primary,
+                                    ),
+                                  ),
+                                  title: Text(
+                                    collection.title,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  trailing: alreadySaved
+                                      ? const Text(
+                                          "Saved",
+                                          style: TextStyle(color: Colors.green),
+                                        )
+                                      : const Icon(Icons.chevron_right),
+                                  onTap: alreadySaved
+                                      ? null
+                                      : () {
                                           ref
                                               .read(
                                                 DependencyModule.imageDetailViewModelProvider(
@@ -151,23 +147,9 @@ class AppCollectionPickerSheet {
                                               );
                                           Navigator.pop(context);
                                         },
-                                      );
-                                    },
-                                  ))
-                          : state.hasError && !state.isLoading
-                          ? AppErrorWidget(
-                              errorMessage: state.error.toString(),
-                              onRetry: () {
-                                ref
-                                    .read(
-                                      DependencyModule.imageDetailViewModelProvider(
-                                        postId,
-                                      ).notifier,
-                                    )
-                                    .fetchUserCollection(postId);
+                                );
                               },
-                            )
-                          : const Center(child: CircularProgressIndicator()),
+                            ),
                     ),
                   ],
                 );

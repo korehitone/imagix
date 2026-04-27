@@ -5,6 +5,7 @@ import 'package:imagix/domain/post/model/post.dart';
 class ImageDetailData {
   final bool isSuccess;
   final bool isDeleted;
+  final bool isFetchingCollections;
   final String? errorMessage;
   final String? userId;
   final int? replyingToId; // ID bapak yang mau di-reply
@@ -16,6 +17,7 @@ class ImageDetailData {
   const ImageDetailData({
     this.isSuccess = false,
     this.isDeleted = false,
+    this.isFetchingCollections = false,
     this.errorMessage,
     this.post,
     this.replyingToId,
@@ -30,6 +32,7 @@ class ImageDetailData {
   ImageDetailData copyWith({
     bool? isSuccess,
     bool? isDeleted,
+    bool? isFetchingCollections,
     String? userId,
     int? replyingToId,
     String? replyingToName,
@@ -40,6 +43,7 @@ class ImageDetailData {
   }) => ImageDetailData(
     isSuccess: isSuccess ?? this.isSuccess,
     isDeleted: isDeleted ?? this.isDeleted,
+    isFetchingCollections: isFetchingCollections ?? this.isFetchingCollections,
     userId: userId ?? this.userId,
     replyingToId: replyingToId,
     replyingToName: replyingToName,

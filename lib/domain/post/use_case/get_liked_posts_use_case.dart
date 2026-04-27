@@ -14,8 +14,9 @@ class GetLikedPostsUseCase {
     required int limit,
   }) async {
     final user = _authRepository.getCurrentUser();
-    if (user == null) return const Error("USER_NOT_FOUND");
+    if (user == null)
+      return const Error("Session expired. Please sign in again.");
 
-    return _postRepository.getLikedPosts(user.id, offset: offset, limit: limit);
+    return _postRepository.getLikedPosts(offset: offset, limit: limit);
   }
 }

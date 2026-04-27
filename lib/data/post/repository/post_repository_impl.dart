@@ -81,8 +81,7 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future<ResultState<List<Post>>> getLikedPosts(
-    String userId, {
+  Future<ResultState<List<Post>>> getLikedPosts({
     required int offset,
     required int limit,
   }) async {
@@ -173,7 +172,11 @@ class PostRepositoryImpl implements PostRepository {
           .from('post_list_view')
           .select()
           .eq('id', response['id'])
-          .single();
+          .maybeSingle();
+
+      if (viewResponse == null) {
+        return const Error("POST_CREATED_BUT_NOT_READABLE");
+      }
       return Success(PostResponse.fromJson(viewResponse).toDomain());
     } catch (e) {
       return Error(ExceptionHandler.handle(e));

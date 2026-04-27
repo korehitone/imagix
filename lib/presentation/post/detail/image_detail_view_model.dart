@@ -36,15 +36,11 @@ class ImageDetailViewModel extends AsyncNotifier<ImageDetailData> {
 
   Future<void> init(Post post) async {
     final currentData = state.value;
-    if (currentData?.post?.id == post.id && currentData?.post != null) {
-      // JANGAN TIMPA STATE! Langsung sync data terbaru dari API & User Info
-      getUserId();
-      unawaited(fetchComments(post.id));
-      await refreshPost(post.id);
-      return; // Keluar, biar gak ngetimpa state pake data 'post' dari parameter
+
+    if (!(currentData?.post?.id == post.id && currentData?.post != null)) {
+      _updateState((current) => current.copyWith(post: post));
     }
 
-    _updateState((current) => current.copyWith(post: post));
     getUserId();
     unawaited(fetchComments(post.id));
     await refreshPost(post.id);
@@ -75,11 +71,6 @@ class ImageDetailViewModel extends AsyncNotifier<ImageDetailData> {
 
     switch (result) {
       case Success(data: final comments):
-        // ==========================================
-        // PENTING:
-        // ambil state TERBARU saat response datang,
-        // jangan pakai snapshot lama yang bisa bawa post lama
-        // ==========================================
         _updateState((current) => current.copyWith(comments: comments));
         break;
 
@@ -112,17 +103,20 @@ class ImageDetailViewModel extends AsyncNotifier<ImageDetailData> {
   }
 
   void setReplyingTo(int parentId, String username) {
+    final current = state.value;
+    if (current == null) return;
+
     state = AsyncData(
-      state.requireValue.copyWith(
-        replyingToId: parentId,
-        replyingToName: username,
-      ),
+      current.copyWith(replyingToId: parentId, replyingToName: username),
     );
   }
 
   void cancelReply() {
+    final current = state.value;
+    if (current == null) return;
+
     state = AsyncData(
-      state.requireValue.copyWith(
+      current.copyWith(
         replyingToId: null, // Di copyWith lo, pastiin ini bisa nge-set null
         replyingToName: null,
       ),
@@ -130,68 +124,67 @@ class ImageDetailViewModel extends AsyncNotifier<ImageDetailData> {
   }
 
   Future<void> submitComment(String? postId, String content) async {
-    final currentData = state.requireValue;
-    if (postId == null || content.isEmpty) return;
+    final currentData = state.value;
+    if (currentData == null || postId == null || content.isEmpty) return;
 
     final post = currentData.post;
     if (post == null) return;
     state = AsyncData(
       currentData.copyWith(post: post.updateCommentCount(true)),
     );
-    state = await AsyncValue.guard(() async {
-      final result = await _commentUseCase.create.invoke(
-        CommentRequest(
-          postId: postId,
-          comment: content,
-          parentId: currentData.replyingToId,
+    final result = await _commentUseCase.create.invoke(
+      CommentRequest(
+        postId: postId,
+        comment: content,
+        parentId: currentData.replyingToId,
+      ),
+    );
+    state = switch (result) {
+      Success(data: final status) => AsyncData(
+        (state.value ?? currentData).copyWith(
+          isSuccess: status,
+          replyingToId: null,
+          replyingToName: null,
         ),
-      );
+      ),
+      Error(error: final msg) => AsyncData(
+        currentData.copyWith(post: post, errorMessage: msg),
+      ),
+    };
 
-      return switch (result) {
-        Success(data: final status) => () {
-          unawaited(fetchComments(postId));
-          return currentData.copyWith(
-            isSuccess: status,
-            replyingToId: null,
-            replyingToName: null,
-            post: state.value?.post,
-          );
-        }(),
-        Error(error: final msg) => throw Exception(msg), // THROW AJA COK!
-      };
-    });
-
-    if (state is AsyncError) {
-      state = AsyncData(currentData.copyWith(post: post));
+    if (result is Success) {
+      unawaited(fetchComments(postId));
     }
   }
 
   Future<void> deleteComment(int commentId, postId) async {
-    final currentData = state.requireValue;
-    if (postId == null) return;
+    final currentData = state.value;
+    if (currentData == null || postId == null) return;
+
     final post = currentData.post;
     if (post == null) return;
+
     state = AsyncData(
       currentData.copyWith(post: post.updateCommentCount(false)),
     );
 
-    state = await AsyncValue.guard(() async {
-      final result = await _commentUseCase.delete.invoke(commentId);
-      return switch (result) {
-        Success(data: final status) => () {
-          unawaited(fetchComments(postId));
-          return currentData.copyWith(
-            isSuccess: status,
-            replyingToId: null,
-            replyingToName: null,
-            post: state.value?.post,
-          );
-        }(),
-        Error(error: final msg) => throw Exception(msg), // THROW AJA COK!
-      };
-    });
-    if (state is AsyncError) {
-      state = AsyncData(currentData.copyWith(post: post));
+    final result = await _commentUseCase.delete.invoke(commentId);
+
+    state = switch (result) {
+      Success(data: final status) => AsyncData(
+        (state.value ?? currentData).copyWith(
+          isSuccess: status,
+          replyingToId: null,
+          replyingToName: null,
+        ),
+      ),
+      Error(error: final msg) => AsyncData(
+        currentData.copyWith(post: post, errorMessage: msg),
+      ),
+    };
+
+    if (result is Success) {
+      unawaited(fetchComments(postId));
     }
   }
 
@@ -245,13 +238,11 @@ class ImageDetailViewModel extends AsyncNotifier<ImageDetailData> {
   }
 
   Future<void> fetchUserCollection(String postId) async {
-    // ==========================================
-    // PAKAI STATE SAAT INI KALAU ADA
-    // KALAU BELUM ADA, PAKAI EMPTY
-    // ==========================================
     final currentData = state.value ?? ImageDetailData.empty();
 
-    state = const AsyncLoading();
+    state = AsyncData(
+      currentData.copyWith(isFetchingCollections: true, errorMessage: null),
+    );
 
     final result = await _collectionUseCase.getCollectionWithSaved.invoke(
       postId,
@@ -259,12 +250,19 @@ class ImageDetailViewModel extends AsyncNotifier<ImageDetailData> {
 
     switch (result) {
       case Success(data: final list):
-        state = AsyncData(currentData.copyWith(collections: list));
+        state = AsyncData(
+          currentData.copyWith(
+            collections: list,
+            isFetchingCollections: false,
+            errorMessage: null,
+          ),
+        );
         break;
 
       case Error(error: final msg):
-        state = AsyncError(msg, StackTrace.current);
-        state = AsyncData(currentData.copyWith(errorMessage: msg));
+        state = AsyncData(
+          currentData.copyWith(isFetchingCollections: false, errorMessage: msg),
+        );
         break;
     }
   }
@@ -292,21 +290,14 @@ class ImageDetailViewModel extends AsyncNotifier<ImageDetailData> {
 
     switch (result) {
       case Success(data: final isSuccess):
-        // ==========================================
-        // UPDATE STATE DETAIL POST
-        // ==========================================
+        final latest = state.value ?? currentData;
         state = AsyncData(
-          currentData.copyWith(
+          latest.copyWith(
             isSuccess: isSuccess,
             collections: optimisticCollections,
           ),
         );
 
-        // ==========================================
-        // PENTING:
-        // REFRESH PROFILE COLLECTIONS
-        // biar item list collection di tab Saved ikut update
-        // ==========================================
         final myId = _authUseCase.getCurrentUser.invoke()?.id;
         await ref
             .read(DependencyModule.profileViewModelProvider(null).notifier)
@@ -326,8 +317,9 @@ class ImageDetailViewModel extends AsyncNotifier<ImageDetailData> {
         break;
 
       case Error(error: final msg):
+        final latest = state.value ?? currentData;
         state = AsyncData(
-          currentData.copyWith(
+          latest.copyWith(
             collections: collections,
             isSuccess: false,
             errorMessage: msg,

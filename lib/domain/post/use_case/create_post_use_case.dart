@@ -29,9 +29,12 @@ class CreatePostUseCase {
 
     return switch (result) {
       Success(data: final post) => Success(post),
-      Error(error: final key) => Error(
-        key == "POST_CREATE_FAILED" ? "Failed to upload post." : key,
-      ),
+      Error(error: final key) => Error(switch (key) {
+        "POST_CREATE_FAILED" => "Failed to upload post.",
+        "POST_CREATED_BUT_NOT_READABLE" =>
+          "Post uploaded, but failed to refresh post data.",
+        _ => key,
+      }),
     };
   }
 }

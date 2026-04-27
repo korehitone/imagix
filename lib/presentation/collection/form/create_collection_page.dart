@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:imagix/core/utils/helper.dart';
 import 'package:imagix/di/dependency_module.dart';
+import 'package:imagix/presentation/common/invalid_route_page.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../widgets/app_button.dart';
@@ -75,6 +76,16 @@ class _CreateCollectionPageState extends ConsumerState<CreateCollectionPage> {
 
   @override
   Widget build(BuildContext context) {
+    final invalidEditPayload =
+        widget.isEditMode &&
+        (widget.collectionId == null || widget.collectionId!.isEmpty);
+
+    if (invalidEditPayload) {
+      return const InvalidRoutePage(
+        message: 'Missing collection data for edit mode.',
+      );
+    }
+
     ref.listen(DependencyModule.collectionFormViewModelProvider, (prev, next) {
       if (next is AsyncError) {
         context.showMsg(next.error.toString());

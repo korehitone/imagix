@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:imagix/app/navigation/app_router.dart';
 import 'package:imagix/core/utils/helper.dart';
 import 'package:imagix/di/dependency_module.dart';
+import 'package:imagix/presentation/common/invalid_route_page.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../widgets/app_button.dart';
@@ -106,11 +107,18 @@ class _UploadPostPageState extends ConsumerState<UploadPostPage> {
 
   @override
   Widget build(BuildContext context) {
+    final invalidEditPayload =
+        widget.isEditMode && (widget.postId == null || widget.postId!.isEmpty);
+
+    if (invalidEditPayload) {
+      return const InvalidRoutePage(
+        message: 'Missing post data for edit mode.',
+      );
+    }
+
     ref.listen(DependencyModule.uploadViewModelProvider, (prev, next) {
       next.whenOrNull(
         data: (post) {
-          // PERLU DIPERHATIKAN:
-          // abaikan state awal/reset = null
           if (post == null && !widget.isEditMode) return;
 
           final messenger = ScaffoldMessenger.of(context);
@@ -164,6 +172,7 @@ class _UploadPostPageState extends ConsumerState<UploadPostPage> {
     });
     final state = ref.watch(DependencyModule.uploadViewModelProvider);
     final isLoading = state is AsyncLoading;
+
     return Scaffold(
       extendBody: true,
       backgroundColor: AppColors.background,

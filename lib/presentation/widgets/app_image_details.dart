@@ -193,11 +193,6 @@ class AppImageActions extends ConsumerWidget {
                     color: Colors.black,
                   ),
                   onPressed: () async {
-                    final rootNavigator = Navigator.of(
-                      context,
-                      rootNavigator: true,
-                    );
-
                     await ref
                         .read(
                           DependencyModule.imageDetailViewModelProvider(
@@ -205,22 +200,10 @@ class AppImageActions extends ConsumerWidget {
                           ).notifier,
                         )
                         .fetchUserCollection(postId);
-                    if (!rootNavigator.mounted) return;
+                    if (!context.mounted) return;
                     AppCollectionPickerSheet.show(context, postId);
                   },
                 ),
-
-                // Builder gives ellipsis its own local context
-                // Builder(
-                //   builder: (btnContext) => GestureDetector(
-                //     onTap: () => _openOverflowMenu(btnContext, ref),
-                //     child: const Icon(
-                //       Icons.more_horiz,
-                //       color: Colors.black,
-                //       size: 28,
-                //     ),
-                //   ),
-                // ),
               ],
             ),
 

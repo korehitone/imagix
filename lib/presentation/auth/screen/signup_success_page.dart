@@ -5,6 +5,7 @@ import 'package:imagix/app/navigation/app_router.dart';
 import 'package:imagix/core/theme/app_colors.dart';
 import 'package:imagix/core/theme/app_text_styles.dart';
 import 'package:imagix/di/dependency_module.dart';
+import 'package:imagix/presentation/common/invalid_route_page.dart';
 import 'package:imagix/presentation/widgets/app_button.dart';
 
 class SignUpSuccessPage extends ConsumerStatefulWidget {
@@ -28,6 +29,10 @@ class _SignUpSuccessPageState extends ConsumerState<SignUpSuccessPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.email.trim().isEmpty) {
+      return const InvalidRoutePage(message: 'Missing signup email.');
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(

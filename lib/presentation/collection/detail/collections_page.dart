@@ -5,6 +5,7 @@ import 'package:imagix/app/navigation/app_router.dart';
 import 'package:imagix/core/utils/helper.dart';
 import 'package:imagix/di/dependency_module.dart';
 import 'package:imagix/domain/collection/model/collection_item.dart';
+import 'package:imagix/presentation/common/invalid_route_page.dart';
 import 'package:imagix/presentation/common/pagination/paginated_state.dart';
 import 'package:imagix/presentation/widgets/app_error_widget.dart';
 
@@ -70,6 +71,10 @@ class _CollectionsPageState extends ConsumerState<CollectionsPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.collectionId.trim().isEmpty) {
+      return const InvalidRoutePage(message: 'Missing collection id.');
+    }
+
     final provider = DependencyModule.collectionDetailViewModelProvider(
       widget.collectionId,
     );
@@ -182,7 +187,7 @@ class _CollectionsPageState extends ConsumerState<CollectionsPage> {
                       ? const Center(child: CircularProgressIndicator())
                       : data.errorMessage != null && items.isEmpty
                       ? AppErrorWidget(
-                          errorMessage: state.error.toString(),
+                          errorMessage: data.errorMessage!,
                           onRetry: () => ref
                               .read(provider.notifier)
                               .init(widget.collectionId),

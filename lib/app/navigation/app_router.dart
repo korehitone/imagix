@@ -1,12 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:imagix/app/navigation/route_payload.dart';
 import 'package:imagix/domain/post/model/post.dart';
 import 'package:imagix/presentation/auth/screen/resend_email_page.dart';
 import 'package:imagix/presentation/auth/screen/restore_account_page.dart';
 import 'package:imagix/presentation/auth/screen/signup_success_page.dart';
 import 'package:imagix/presentation/collection/detail/collections_page.dart';
 import 'package:imagix/presentation/collection/form/create_collection_page.dart';
+import 'package:imagix/presentation/common/invalid_route_page.dart';
 import 'package:imagix/presentation/common/main_screen.dart';
 import 'package:imagix/presentation/like/liked_page.dart';
 import 'package:imagix/presentation/post/detail/image_details_page.dart';
@@ -128,34 +130,36 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoute.createPost,
         builder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>?;
+          final map = RoutePayload.asMap(state.extra);
           return UploadPostPage(
-            isEditMode: extra?['isEditMode'] ?? false,
-            postId: extra?['postId'],
-            existingTitle: extra?['existingTitle'],
-            existingDescription: extra?['existingDescription'],
-            existingImageUrl: extra?['existingImageUrl'],
+            isEditMode: map?['isEditMode'] as bool? ?? false,
+            postId: map?['postId'] as String?,
+            existingTitle: map?['existingTitle'] as String?,
+            existingDescription: map?['existingDescription'] as String?,
+            existingImageUrl: map?['existingImageUrl'] as String?,
           );
         },
       ),
       GoRoute(
         path: AppRoute.createCollection,
         builder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>?;
-
+          final map = RoutePayload.asMap(state.extra);
           return CreateCollectionPage(
-            // ==========================================
-            // support create / edit collection
-            // ==========================================
-            isEditMode: extra?['isEditMode'] ?? false,
-            collectionId: extra?['collectionId'],
-            existingName: extra?['existingName'],
+            isEditMode: map?['isEditMode'] as bool? ?? false,
+            collectionId: map?['collectionId'] as String?,
+            existingName: map?['existingName'] as String?,
           );
         },
       ),
       GoRoute(
         path: AppRoute.imageDetail,
-        builder: (context, state) => ImageDetailPage(post: state.extra as Post),
+        builder: (context, state) {
+          final post = RoutePayload.asType<Post>(state.extra);
+          if (post == null) {
+            return const InvalidRoutePage(message: 'Invalid post data.');
+          }
+          return ImageDetailPage(post: post);
+        },
       ),
       GoRoute(
         path: AppRoute.profile,
@@ -167,27 +171,23 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoute.collectionDetail,
         builder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>?;
+          final map = RoutePayload.asMap(state.extra);
 
           return CollectionsPage(
-            // ==========================================
-            // collection detail perlu id + name
-            // ==========================================
-            collectionId: extra?['collectionId'] ?? '',
-            collectionName: extra?['collectionName'] ?? 'Collections Name',
-            isDefault: extra?['isDefault'] ?? false,
+            collectionId: map?['collectionId'] as String? ?? '',
+            collectionName: map?['collectionName'] as String? ?? 'Collection',
+            isDefault: map?['isDefault'] as bool? ?? false,
           );
         },
       ),
       GoRoute(
         path: AppRoute.editProfile,
         builder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>?;
-
+          final map = RoutePayload.asMap(state.extra);
           return EditProfilePage(
-            existingUsername: extra?['existingUsername'],
-            existingBio: extra?['existingBio'],
-            existingPhotoUrl: extra?['existingPhotoUrl'],
+            existingUsername: map?['existingUsername'] as String?,
+            existingBio: map?['existingBio'] as String?,
+            existingPhotoUrl: map?['existingPhotoUrl'] as String?,
           );
         },
       ),
@@ -202,8 +202,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoute.signupSuccess,
         builder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>?;
-          return SignUpSuccessPage(email: extra?['email'] ?? '');
+          final map = RoutePayload.asMap(state.extra);
+          return SignUpSuccessPage(email: map?['email'] as String? ?? '');
         },
       ),
     ],

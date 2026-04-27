@@ -46,7 +46,12 @@ class ExceptionHandler {
       return "No internet connection. Please check your network.";
     }
 
-    // 4. Default Error
+    // 4. FormatException
+    if (e is FormatException) {
+      return "Failed to process server data. Please try again.";
+    }
+
+    // 5. Default Error
     return "An unexpected error occurred. Please try again.";
   }
 }

@@ -70,27 +70,6 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
         );
   }
 
-  void _showSuccessDialog() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: const Text("Verify Your Email"),
-        content: const Text(
-          "We've sent a confirmation link to your email. Please check your inbox and spam folder.",
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              context.go(AppRoute.login);
-            },
-            child: const Text("OK"),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   void dispose() {
     _emailController.dispose();

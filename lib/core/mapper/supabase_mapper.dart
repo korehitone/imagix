@@ -10,7 +10,7 @@ extension SupabaseDecode on Object? {
       }).toList();
     } catch (e) {
       // Di sini lu bisa pake logger lu tadi
-      return []; // Safety net biar UI gak crash
+      throw FormatException('Failed to decode list response: $e');
     }
   }
 
@@ -21,7 +21,7 @@ extension SupabaseDecode on Object? {
 
       return fromJson(this as Map<String, dynamic>);
     } catch (e) {
-      return null;
+      throw FormatException('Failed to decode single response: $e');
     }
   }
 }

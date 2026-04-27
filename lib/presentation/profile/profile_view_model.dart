@@ -85,12 +85,13 @@ class ProfileViewModel extends AsyncNotifier<ProfileData> {
           _syncLocalProfile(p);
         }
         _updateState(
-          (current) => current.copyWith(profile: p, isSuccess: true),
+          (current) =>
+              current.copyWith(profile: p, isSuccess: true, errorMessage: null),
         );
         break;
 
       case Error(error: final msg):
-        state = AsyncError(msg, StackTrace.current);
+        _updateState((current) => current.copyWith(errorMessage: msg));
         break;
     }
   }
