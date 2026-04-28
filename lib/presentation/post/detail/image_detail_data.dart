@@ -7,6 +7,7 @@ class ImageDetailData {
   final bool isDeleted;
   final bool isFetchingCollections;
   final String? errorMessage;
+  final String? errorCollectionMessage;
   final String? userId;
   final int? replyingToId; // ID bapak yang mau di-reply
   final String? replyingToName;
@@ -19,6 +20,7 @@ class ImageDetailData {
     this.isDeleted = false,
     this.isFetchingCollections = false,
     this.errorMessage,
+    this.errorCollectionMessage,
     this.post,
     this.replyingToId,
     this.replyingToName,
@@ -38,6 +40,7 @@ class ImageDetailData {
     String? replyingToName,
     Post? post,
     String? errorMessage,
+    String? errorCollectionMessage,
     List<Comment>? comments,
     List<Collection>? collections,
   }) => ImageDetailData(
@@ -51,5 +54,6 @@ class ImageDetailData {
     comments: comments ?? this.comments,
     collections: collections ?? this.collections,
     errorMessage: errorMessage,
+    errorCollectionMessage: errorCollectionMessage,
   );
 }

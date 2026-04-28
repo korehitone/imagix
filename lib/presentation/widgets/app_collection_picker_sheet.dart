@@ -72,10 +72,12 @@ class AppCollectionPickerSheet {
                           ? const Center(child: CircularProgressIndicator())
                           : data.isFetchingCollections
                           ? const Center(child: CircularProgressIndicator())
-                          : data.errorMessage != null &&
+                          : data.errorCollectionMessage != null &&
                                 data.collections.isEmpty
                           ? AppErrorWidget(
-                              errorMessage: data.errorMessage!,
+                              errorMessage:
+                                  data.errorCollectionMessage ??
+                                  "Failed to loaf collections.",
                               onRetry: () {
                                 ref
                                     .read(

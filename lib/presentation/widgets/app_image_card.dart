@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:imagix/di/dependency_module.dart';
@@ -92,13 +94,15 @@ class ImageItem extends ConsumerWidget {
                           );
 
                           // Fetch data koleksi
-                          await ref
-                              .read(
-                                DependencyModule.imageDetailViewModelProvider(
-                                  postId!,
-                                ).notifier,
-                              )
-                              .fetchUserCollection(postId!);
+                          unawaited(
+                            ref
+                                .read(
+                                  DependencyModule.imageDetailViewModelProvider(
+                                    postId!,
+                                  ).notifier,
+                                )
+                                .fetchUserCollection(postId!),
+                          );
 
                           // Gunakan rootNavigator.context untuk memastikan sheet muncul di layer paling atas
                           if (rootNavigator.mounted) {

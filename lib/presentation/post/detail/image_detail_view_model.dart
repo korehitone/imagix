@@ -254,14 +254,17 @@ class ImageDetailViewModel extends AsyncNotifier<ImageDetailData> {
           currentData.copyWith(
             collections: list,
             isFetchingCollections: false,
-            errorMessage: null,
+            errorCollectionMessage: null,
           ),
         );
         break;
 
       case Error(error: final msg):
         state = AsyncData(
-          currentData.copyWith(isFetchingCollections: false, errorMessage: msg),
+          currentData.copyWith(
+            isFetchingCollections: false,
+            errorCollectionMessage: msg,
+          ),
         );
         break;
     }

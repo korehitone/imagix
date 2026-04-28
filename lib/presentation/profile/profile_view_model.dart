@@ -20,6 +20,10 @@ class ProfileViewModel extends AsyncNotifier<ProfileData> {
 
   @override
   Future<ProfileData> build() async {
+    final local = _authUseCase.getLocalUser.invoke()?.toDomain();
+    if (local != null) {
+      return ProfileData(profile: local); // own profile → instant
+    }
     return ProfileData.empty();
   }
 
@@ -28,13 +32,56 @@ class ProfileViewModel extends AsyncNotifier<ProfileData> {
     final idToFetch = targetUserId ?? myId;
     if (idToFetch == null) return;
 
-    if (state.value == null || state.value?.profile?.id != idToFetch) {
+    // if (state.value == null || state.value?.profile?.id != idToFetch) {
+    //   state = const AsyncLoading();
+    // }
+    //
+    final isOwn = (idToFetch == myId);
+    //
+    // if (isOwn && (state.value == null || state.value?.profile == null)) {
+    //   final local = _authUseCase.getLocalUser.invoke()?.toDomain();
+    //   if (local != null) {
+    //     state = AsyncData(ProfileData(profile: local));
+    //   }
+    // }
+
+    // Hanya force loading kalau profile ID beda (pindah user)
+    // if (state.value?.profile?.id != null &&
+    //     state.value?.profile?.id != idToFetch) {
+    //   state = const AsyncLoading();
+    // }
+    //
+    // if (isOwn && state.value?.profile == null) {
+    //   final local = _authUseCase.getLocalUser.invoke()?.toDomain();
+    //   if (local != null) {
+    //     state = AsyncData(ProfileData(profile: local));
+    //   }
+    // }
+    if (state.value?.profile?.id != idToFetch) {
       state = const AsyncLoading();
     }
 
+    if (isOwn) {
+      // Profile sendiri: instant dari local
+      final local = _authUseCase.getLocalUser.invoke()?.toDomain();
+      if (local != null) {
+        state = AsyncData(ProfileData(profile: local));
+      }
+    }
+
+    await fetchRemoteProfile(idToFetch, isOwn);
+  }
+
+  Future<void> refresh(String? targetUserId) async {
+    final myId = _authUseCase.getCurrentUser.invoke()?.id;
+    final idToFetch = targetUserId ?? myId;
+    if (idToFetch == null) return;
+
+    state = const AsyncLoading(); // Show loading indicator
+
     final isOwn = (idToFetch == myId);
 
-    if (isOwn && (state.value == null || state.value?.profile == null)) {
+    if (isOwn) {
       final local = _authUseCase.getLocalUser.invoke()?.toDomain();
       if (local != null) {
         state = AsyncData(ProfileData(profile: local));
@@ -91,8 +138,24 @@ class ProfileViewModel extends AsyncNotifier<ProfileData> {
         break;
 
       case Error(error: final msg):
-        _updateState((current) => current.copyWith(errorMessage: msg));
+        // ✅ CRITICAL: Kalau gagal & bukan profile sendiri → FULL ERROR!
+        if (!isOwn ||
+            state.value?.profile?.id !=
+                _authUseCase.getCurrentUser.invoke()?.id) {
+          state = AsyncError(msg, StackTrace.current);
+        } else {
+          // Profile sendiri gagal remote → tetep pake cache local
+          _updateState((current) => current.copyWith(errorMessage: msg));
+        }
         break;
+
+      // case Error(error: final msg):
+      //   if (state.value?.profile == null) {
+      //     state = AsyncError(msg, StackTrace.current);
+      //   } else {
+      //     _updateState((current) => current.copyWith(errorMessage: msg));
+      //   }
+      //   break;
     }
   }
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -193,13 +195,15 @@ class AppImageActions extends ConsumerWidget {
                     color: Colors.black,
                   ),
                   onPressed: () async {
-                    await ref
-                        .read(
-                          DependencyModule.imageDetailViewModelProvider(
-                            postId,
-                          ).notifier,
-                        )
-                        .fetchUserCollection(postId);
+                    unawaited(
+                      ref
+                          .read(
+                            DependencyModule.imageDetailViewModelProvider(
+                              postId,
+                            ).notifier,
+                          )
+                          .fetchUserCollection(postId),
+                    );
                     if (!context.mounted) return;
                     AppCollectionPickerSheet.show(context, postId);
                   },

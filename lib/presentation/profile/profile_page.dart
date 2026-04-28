@@ -101,11 +101,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     });
   }
 
-  // ==========================================
-  // TAMBAHAN BARU:
-  // init collections hanya saat profile yang tampil
-  // ternyata profile milik user login
-  // ==========================================
   void _ensureCollectionsInitialized(bool isOwnProfile) {
     if (!isOwnProfile) return;
     if (_collectionsInitialized) return;
@@ -120,10 +115,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     });
   }
 
-  // ==========================================
-  // TAMBAHAN BARU:
-  // dialog logout
-  // ==========================================
   Future<void> _handleLogout() async {
     final confirmed = await showDialog<bool>(
       context: context,
@@ -156,10 +147,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     }
   }
 
-  // ==========================================
-  // TAMBAHAN BARU:
-  // dialog soft delete account
-  // ==========================================
   Future<void> _handleDeleteAccount() async {
     final confirmed = await showDialog<bool>(
       context: context,
@@ -194,10 +181,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     }
   }
 
-  // ==========================================
-  // TAMBAHAN BARU:
-  // menu titik tiga untuk profile sendiri
-  // ==========================================
   Widget _buildOwnProfileMenu() {
     return PopupMenuButton<String>(
       icon: const Icon(Icons.more_vert, color: Colors.black),
@@ -426,10 +409,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
       }
     });
 
-    // ==========================================
-    // TAMBAHAN BARU:
-    // dengerin error dari logout / delete account
-    // ==========================================
     ref.listen(DependencyModule.authViewModelProvider, (prev, next) {
       next.whenOrNull(
         error: (e, stack) {
@@ -475,14 +454,19 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     final authState = ref.watch(DependencyModule.authViewModelProvider);
     final myUserId = authState.value?.user?.id;
 
-    final headerData = headerState.value ?? ProfileData.empty();
+    // final headerData = headerState.value ?? ProfileData.empty();
+    final headerData =
+        headerState
+            .whenData(
+              (data) =>
+                  widget.userId != null && data.profile?.id != widget.userId
+                  ? null // Force null = loading
+                  : data,
+            )
+            .value ??
+        ProfileData.empty();
     final resolvedUserId = headerData.profile?.id;
 
-    // ==========================================
-    // PERUBAHAN PALING PENTING:
-    // profile sendiri jangan ditentuin dari widget.userId == null
-    // tapi dari profile yang tampil vs auth user login
-    // ==========================================
     final isOwnProfile =
         myUserId != null &&
         resolvedUserId != null &&
@@ -515,105 +499,112 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         extendBody: true,
         backgroundColor: AppColors.background,
         key: ValueKey('profile_${isOwnProfile}_${widget.userId}'),
-        body: SafeArea(
-          bottom: false,
-          child: NestedScrollView(
-            headerSliverBuilder: (context, innerBoxIsScrolled) {
-              return [
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      children: [
-                        // ==========================================
-                        // PERUBAHAN:
-                        // menu kanan atas sekarang ngikut isOwnProfile
-                        // yang dihitung dari auth user id
-                        // ==========================================
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            canNavigateBack
-                                ? const AppBackButton()
-                                : const SizedBox(width: 40),
-                            isOwnProfile
-                                ? _buildOwnProfileMenu()
-                                : const SizedBox(width: 40),
-                          ],
-                        ),
-                        AppProfileHeader(
-                          username: headerData.profile?.username ?? "user",
-                          bio: headerData.profile?.bio ?? "",
-                          imageUrl: headerData.profile?.photo,
-                          posts: headerData.profile?.totalPosts ?? 0,
-                          followers: headerData.profile?.totalFollowers ?? 0,
-                          following: headerData.profile?.totalFollowings ?? 0,
-                          collections:
-                              headerData.profile?.totalCollections ?? 0,
-                          isOwnProfile: isOwnProfile,
-                          isFollowing: headerData.profile?.isFollowing ?? false,
-                          onFollowersTap: () {
-                            if ((headerData.profile?.totalFollowers ?? 0) > 0) {
-                              _showFollowOverlay("Followers", true);
-                            }
-                          },
-                          onFollowingTap: () {
-                            if ((headerData.profile?.totalFollowings ?? 0) >
-                                0) {
-                              _showFollowOverlay("Following", false);
-                            }
-                          },
-                          onFollow: () {
-                            final profileId = headerData.profile?.id;
-                            if (profileId != null) {
-                              ref
-                                  .read(
-                                    DependencyModule.profileViewModelProvider(
-                                      widget.userId,
-                                    ).notifier,
-                                  )
-                                  .toggleFollowProfile(profileId);
-                            }
-                          },
-                          onEditProfile: () {
-                            context.push(
-                              AppRoute.editProfile,
-                              extra: {
-                                'existingUsername':
-                                    headerData.profile?.username,
-                                'existingBio': headerData.profile?.bio,
-                                'existingPhotoUrl': headerData.profile?.photo,
-                              },
-                            );
-                          },
-                        ),
-                      ],
+        body: RefreshIndicator(
+          onRefresh: () => ref
+              .read(
+                DependencyModule.profileViewModelProvider(
+                  widget.userId,
+                ).notifier,
+              )
+              .refresh(widget.userId),
+          child: SafeArea(
+            bottom: false,
+            child: NestedScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              headerSliverBuilder: (context, innerBoxIsScrolled) {
+                return [
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              canNavigateBack
+                                  ? const AppBackButton()
+                                  : const SizedBox(width: 40),
+                              isOwnProfile
+                                  ? _buildOwnProfileMenu()
+                                  : const SizedBox(width: 40),
+                            ],
+                          ),
+                          AppProfileHeader(
+                            username: headerData.profile?.username ?? "user",
+                            bio: headerData.profile?.bio ?? "",
+                            imageUrl: headerData.profile?.photo,
+                            posts: headerData.profile?.totalPosts ?? 0,
+                            followers: headerData.profile?.totalFollowers ?? 0,
+                            following: headerData.profile?.totalFollowings ?? 0,
+                            collections:
+                                headerData.profile?.totalCollections ?? 0,
+                            isOwnProfile: isOwnProfile,
+                            isFollowing:
+                                headerData.profile?.isFollowing ?? false,
+                            onFollowersTap: () {
+                              if ((headerData.profile?.totalFollowers ?? 0) >
+                                  0) {
+                                _showFollowOverlay("Followers", true);
+                              }
+                            },
+                            onFollowingTap: () {
+                              if ((headerData.profile?.totalFollowings ?? 0) >
+                                  0) {
+                                _showFollowOverlay("Following", false);
+                              }
+                            },
+                            onFollow: () {
+                              final profileId = headerData.profile?.id;
+                              if (profileId != null) {
+                                ref
+                                    .read(
+                                      DependencyModule.profileViewModelProvider(
+                                        widget.userId,
+                                      ).notifier,
+                                    )
+                                    .toggleFollowProfile(profileId);
+                              }
+                            },
+                            onEditProfile: () {
+                              context.push(
+                                AppRoute.editProfile,
+                                extra: {
+                                  'existingUsername':
+                                      headerData.profile?.username,
+                                  'existingBio': headerData.profile?.bio,
+                                  'existingPhotoUrl': headerData.profile?.photo,
+                                },
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                SliverPersistentHeader(
-                  pinned: true,
-                  delegate: _SliverAppBarDelegate(
-                    TabBar(
-                      labelColor: AppColors.primary,
-                      unselectedLabelColor: Colors.grey,
-                      indicatorColor: AppColors.primary,
-                      labelStyle: Theme.of(context).textTheme.bodyMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                      tabs: [
-                        const Tab(text: 'Created'),
-                        if (isOwnProfile) const Tab(text: 'Saved'),
-                      ],
+                  SliverPersistentHeader(
+                    pinned: true,
+                    delegate: _SliverAppBarDelegate(
+                      TabBar(
+                        labelColor: AppColors.primary,
+                        unselectedLabelColor: Colors.grey,
+                        indicatorColor: AppColors.primary,
+                        labelStyle: Theme.of(context).textTheme.bodyMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
+                        tabs: [
+                          const Tab(text: 'Created'),
+                          if (isOwnProfile) const Tab(text: 'Saved'),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ];
-            },
-            body: TabBarView(
-              children: [
-                _buildPostsTab(postData, resolvedUserId),
-                if (isOwnProfile) _buildCollectionsTab(collectionData),
-              ],
+                ];
+              },
+              body: TabBarView(
+                children: [
+                  _buildPostsTab(postData, resolvedUserId),
+                  if (isOwnProfile) _buildCollectionsTab(collectionData),
+                ],
+              ),
             ),
           ),
         ),
