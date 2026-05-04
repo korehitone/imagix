@@ -1,3 +1,4 @@
+import 'package:imagix/core/utils/helper.dart';
 import 'package:imagix/domain/auth/repository/auth_repository.dart';
 import 'package:imagix/domain/common/model/user_profile.dart';
 import 'package:imagix/domain/profile/repository/profile_repository.dart';
@@ -12,12 +13,11 @@ class UpdateProfileUseCase {
   const UpdateProfileUseCase(this._profileRepository, this._authRepository);
 
   Future<ResultState<bool>> invoke(ProfileRequest request) async {
-    if (request.username.isEmpty) {
+    if (request.username.trim().isEmpty) {
       return const Error("Username can not be empty.");
     }
 
-    final usernameRegex = RegExp(r'^[A-Za-z0-9._]+$');
-    if (!usernameRegex.hasMatch(request.username)) {
+    if (!request.username.trim().isValidUsername()) {
       return const Error(
         "Username can only contain letters, numbers, underscore (_) and dot (.).",
       );

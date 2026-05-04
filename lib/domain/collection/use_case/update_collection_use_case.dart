@@ -13,7 +13,7 @@ class UpdateCollectionUseCase {
   );
 
   Future<ResultState<bool>> invoke(String collectionId, String title) async {
-    if (title.isEmpty) {
+    if (title.trim().isEmpty) {
       return Error("Title can not be empty.");
     }
 

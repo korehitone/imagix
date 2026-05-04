@@ -11,7 +11,7 @@ class UpdatePostUseCase {
   const UpdatePostUseCase(this._postRepository, this._authRepository);
 
   Future<ResultState<bool>> invoke(String postId, PostRequest request) async {
-    if (request.title.isEmpty) {
+    if (request.title.trim().isEmpty) {
       return const Error("Title can not be empty.");
     }
 

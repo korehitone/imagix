@@ -12,7 +12,7 @@ class CreatePostUseCase {
   const CreatePostUseCase(this._postRepository, this._authRepository);
 
   Future<ResultState<Post>> invoke(PostRequest request) async {
-    if (request.title.isEmpty) {
+    if (request.title.trim().isEmpty) {
       return const Error("Title is required.");
     }
 

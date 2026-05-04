@@ -13,7 +13,7 @@ class CreateCollectionUseCase {
   );
 
   Future<ResultState<bool>> invoke(String title) async {
-    if (title.isEmpty) {
+    if (title.trim().isEmpty) {
       return Error("Title can not be empty.");
     }
 

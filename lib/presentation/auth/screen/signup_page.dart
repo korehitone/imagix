@@ -38,12 +38,10 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
     final password = _passwordController.text.trim();
     final confirm = _confirmPasswordController.text.trim();
 
-    final usernameRegex = RegExp(r'^[A-Za-z0-9._]+$');
-
     if (email.isEmpty) return "Email can not be empty.";
     if (!email.isValidEmail()) return "Email is not valid.";
     if (username.isEmpty) return "Username can not be empty.";
-    if (!usernameRegex.hasMatch(username)) {
+    if (!username.isValidUsername()) {
       return "Username can only contain letters, numbers, underscore (_) and dot (.).";
     }
     if (password.isEmpty) return "Password can not be empty.";

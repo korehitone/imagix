@@ -9,58 +9,6 @@ import 'package:timeago/timeago.dart' as timeago;
 
 import '../../core/theme/app_colors.dart';
 
-// class _CommentData {
-//   final String username;
-//   final String comment;
-//   final String date;
-//   final List<_CommentData> replies;
-//
-//   const _CommentData({
-//     required this.username,
-//     required this.comment,
-//     required this.date,
-//     this.replies = const [],
-//   });
-// }
-//
-// const List<_CommentData> _dummyComments = [
-//   _CommentData(
-//     username: 'alice_wonder',
-//     comment: 'This is absolutely stunning! Love the composition.',
-//     date: '2h ago',
-//     replies: [
-//       _CommentData(
-//         username: 'bob_draws',
-//         comment: 'Totally agree, the lighting is perfect!',
-//         date: '1h ago',
-//       ),
-//     ],
-//   ),
-//   _CommentData(
-//     username: 'john_visuals',
-//     comment: 'Great work, keep it up!',
-//     date: '5h ago',
-//     replies: [
-//       _CommentData(
-//         username: 'sara_art',
-//         comment: 'Yes! One of the best I have seen today.',
-//         date: '4h ago',
-//       ),
-//       _CommentData(
-//         username: 'mike_snaps',
-//         comment: 'Incredible detail in this one.',
-//         date: '3h ago',
-//       ),
-//     ],
-//   ),
-//   _CommentData(
-//     username: 'luna_creative',
-//     comment: 'The colors are so vibrant, wow!',
-//     date: '1d ago',
-//     replies: [],
-//   ),
-// ];
-
 class AppCommentSheet {
   static void show(BuildContext context, String postOwnerId, String postId) {
     final TextEditingController commentController = TextEditingController();

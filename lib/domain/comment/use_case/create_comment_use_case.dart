@@ -11,7 +11,7 @@ class CreateCommentUseCase {
   const CreateCommentUseCase(this._commentRepository, this._authRepository);
 
   Future<ResultState<bool>> invoke(CommentRequest request) async {
-    if (request.comment.isEmpty) {
+    if (request.comment.trim().isEmpty) {
       return Error("Comment can not be empty.");
     }
 
