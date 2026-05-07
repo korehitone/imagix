@@ -117,17 +117,6 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<ResultState<bool>> deleteAccount(String userId) async {
     try {
-      // final response = await _client
-      //     .from('users')
-      //     .update({'deleted_at': DateTime.now().toIso8601String()})
-      //     .eq('id', userId)
-      //     .select('id')
-      //     .maybeSingle();
-
-      // if (response == null) {
-      //   return const Error("AUTH_ACTION_DENIED");
-      // }
-
       await _client.rpc('soft_delete_my_account');
 
       return const Success(true);
@@ -139,17 +128,6 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<ResultState<bool>> restoreAccount(String userId) async {
     try {
-      // final response = await _client
-      //     .from('users')
-      //     .update({'deleted_at': null})
-      //     .eq('id', userId)
-      //     .select('id')
-      //     .maybeSingle();
-      //
-      // if (response == null) {
-      //   return const Error("AUTH_ACTION_DENIED");
-      // }
-
       await _client.rpc('restore_my_account');
       return Success(true);
     } catch (e) {
