@@ -142,38 +142,37 @@ void main() {
           when(
             mockSupabaseClient.from('follows'),
           ).thenAnswer((_) => mockSupabaseBuilder);
+
           when(
-            mockSupabaseBuilder.select(),
+            mockSupabaseBuilder.select('*'),
           ).thenAnswer((_) => mockFilterBuilderList);
+
           when(
             mockFilterBuilderList.eq(any, any),
           ).thenAnswer((_) => mockFilterBuilderList);
 
-          // 1. Mock existing check returns null
           when(
             mockFilterBuilderList.maybeSingle(),
           ).thenAnswer((_) => mockFilterBuilderSingle);
+
           when(
             mockFilterBuilderSingle.then(any, onError: anyNamed('onError')),
           ).thenAnswer((inv) {
             final callback = inv.positionalArguments[0] as Function;
-            return Future.value(callback(null));
+            return Future.value(callback(null)); // Data nggak ada
           });
 
-          // 2. Mock Insert
-          final mockInsertBuilder = MockSupabaseQueryBuilder();
           final mockInsertFilter = MockPostgrestFilterBuilderList();
           final mockInsertSingle = MockPostgrestFilterBuilderSingle();
 
           when(
-            mockSupabaseClient.from('follows'),
-          ).thenAnswer((_) => mockInsertBuilder);
-          when(
-            mockInsertBuilder.insert(any),
+            mockSupabaseBuilder.insert(any),
           ).thenAnswer((_) => mockInsertFilter);
+
           when(
             mockInsertFilter.select('follower_id'),
           ).thenAnswer((_) => mockInsertFilter);
+
           when(
             mockInsertFilter.maybeSingle(),
           ).thenAnswer((_) => mockInsertSingle);
@@ -182,14 +181,18 @@ void main() {
             mockInsertSingle.then(any, onError: anyNamed('onError')),
           ).thenAnswer((inv) {
             final callback = inv.positionalArguments[0] as Function;
-            return Future.value(callback({'follower_id': tCurrentUserId}));
+            return Future.value(
+              callback({'follower_id': tCurrentUserId}),
+            ); // Berhasil insert
           });
 
+          // ACT
           final result = await repository.toggleFollow(
             tCurrentUserId,
             tTargetUserId,
           );
 
+          // ASSERT
           expect(result, isA<Success<bool>>());
           expect((result as Success<bool>).data, true);
         },
@@ -201,17 +204,19 @@ void main() {
           when(
             mockSupabaseClient.from('follows'),
           ).thenAnswer((_) => mockSupabaseBuilder);
+
           when(
-            mockSupabaseBuilder.select(),
+            mockSupabaseBuilder.select('*'),
           ).thenAnswer((_) => mockFilterBuilderList);
+
           when(
             mockFilterBuilderList.eq(any, any),
           ).thenAnswer((_) => mockFilterBuilderList);
 
-          // 1. Mock existing check returns data
           when(
             mockFilterBuilderList.maybeSingle(),
           ).thenAnswer((_) => mockFilterBuilderSingle);
+
           when(
             mockFilterBuilderSingle.then(any, onError: anyNamed('onError')),
           ).thenAnswer((inv) {
@@ -223,6 +228,13 @@ void main() {
           when(
             mockSupabaseBuilder.delete(),
           ).thenAnswer((_) => mockFilterBuilderList);
+
+          when(
+            mockFilterBuilderList.then(any, onError: anyNamed('onError')),
+          ).thenAnswer((inv) {
+            final callback = inv.positionalArguments[0] as Function;
+            return Future.value(callback(<Map<String, dynamic>>[]));
+          });
 
           final result = await repository.toggleFollow(
             tCurrentUserId,
@@ -282,18 +294,29 @@ void main() {
         when(
           mockSupabaseClient.from('follows'),
         ).thenAnswer((_) => mockSupabaseBuilder);
+
         when(
           mockSupabaseBuilder.delete(),
         ).thenAnswer((_) => mockFilterBuilderList);
+
         when(
           mockFilterBuilderList.eq(any, any),
         ).thenAnswer((_) => mockFilterBuilderList);
+
+        when(
+          mockFilterBuilderList.then(any, onError: anyNamed('onError')),
+        ).thenAnswer((inv) {
+          final callback = inv.positionalArguments[0] as Function;
+          return Future.value(callback(<Map<String, dynamic>>[]));
+        });
 
         final result = await repository.removeFollower(
           tCurrentUserId,
           tTargetUserId,
         );
+
         expect(result, isA<Success<bool>>());
+        expect((result as Success<bool>).data, true);
       });
 
       test('should return Error when delete throws exception', () async {
