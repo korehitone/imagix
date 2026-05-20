@@ -1,8 +1,8 @@
 # Imagix
 
-A modern social image-sharing application inspired by Pinterest, built with Flutter and powered by Supabase. Share images, engage with comments, like posts, save collections, and follow creators in a beautiful Material 3 interface.
+A modern social image-sharing application inspired by Pinterest, built with Flutter and powered by Supabase. Share images, engage with comments, like posts, save collections, and follow creators.
 
-**Version**: 1.0.1 | **Platform**: Android | **Language**: Dart 3.11.0+
+**Version**: 1.0.1 | **Platform**: Android & iOS | **Language**: Dart 3.11.0+
 
 ---
 
@@ -72,6 +72,13 @@ A modern social image-sharing application inspired by Pinterest, built with Flut
 | **Timezone** | 0.11.0 | Timezone support |
 | **Flutter Timezone** | 5.0.1 | Platform-specific timezone |
 
+### Testing
+| Library | Version | Purpose |
+|---------|---------|---------|
+| **Mockito** | 5.4.6 | Mocking library for unit tests |
+| **Flutter Test** | Built-in | Flutter testing framework |
+| **Test** | 1.29.0 | Dart testing package |
+
 ---
 
 
@@ -80,38 +87,35 @@ A modern social image-sharing application inspired by Pinterest, built with Flut
 #### `/lib/data` - Data Layer
 Handles all data operations including API calls and local storage.
 
-- **Responsibility**: Communicate with Supabase, transform data
-- **Pattern**: Repository Pattern
-- **Key Components**:
-  - `*_repository_impl.dart` - Data access implementation
-  - `*_response.dart` - API response models (DTOs)
-  - Mappers - Convert between data and domain layers
+**Responsibility**: Communicate with Supabase, transform data, implement repositories
+**Pattern**: Repository Pattern
+**Key Components**:
+- `*_repository_impl.dart` - Data access implementation
+- `*_response.dart` - API response models (DTOs)
+- Mappers - Convert between data and domain layers
 
 #### `/lib/domain` - Domain Layer
 Pure business logic independent of frameworks.
 
-- **Responsibility**: Define use cases and business rules
-- **Pattern**: Clean Architecture
-- **Key Components**:
-  - `*_repository.dart` - Repository interfaces
-  - `*_use_case.dart` - Business logic
-  - Models - Domain entities
+**Responsibility**: Define use cases and business rules
+**Pattern**: Clean Architecture
+**Key Components**:
+- `*_repository.dart` - Repository interfaces/contracts
+- `*_use_case.dart` - Business logic containers
+- Models - Domain entities
 
 #### `/lib/presentation` - Presentation Layer
 All UI and user interaction logic.
 
-- **Responsibility**: UI rendering and state management
-- **Pattern**: MVVM with Riverpod
-- **Key Components**:
-  - `*_page.dart` - Screen widgets
-  - `*_view_model.dart` - State management
-  - Widgets - Reusable UI components
+**Responsibility**: UI rendering and state management
+**Pattern**: MVVM with Riverpod
+**Key Components**:
+- `*_page.dart` - Screen widgets
+- `*_view_model.dart` - State management with Riverpod
+- Widgets - Reusable UI components
 
 #### `/lib/core` - Shared Resources
 Common utilities and configuration used across all layers.
 
-- Theme, colors, text styles
-- Environment variables
-- Error handling
-- Network utilities
-- Local storage wrappers
+#### `/test` - Testing
+Unit tests for data layer, domain layer, and repositories using Mockito for mocking Supabase interactions.
